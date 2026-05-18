@@ -10,9 +10,9 @@ Canal de comunicação covert in-band sobre Ethernet L2, usando **AF_XDP zero-co
 - [Árvore de ficheiros](#árvore-de-ficheiros)
 - [O que faz cada ficheiro](#o-que-faz-cada-ficheiro)
 - [Arquitetura e implementação](#arquitetura-e-implementação)
-  - [Camada 1 — Frame Crafting](#camada-1--frame-crafting)
-  - [Camada 2 — XDP Interception](#camada-2--xdp-interception)
-  - [Camada 3 — AF_XDP Userspace Consumer](#camada-3--af_xdp-userspace-consumer)
+  - [Camada 1 - Frame Crafting](#camada-1--frame-crafting)
+  - [Camada 2 - XDP Interception](#camada-2--xdp-interception)
+  - [Camada 3 - AF_XDP Userspace Consumer](#camada-3--af_xdp-userspace-consumer)
   - [Camada Criptográfica](#camada-criptográfica)
   - [Propriedades stealth](#propriedades-stealth)
 - [Dependências](#dependências)
@@ -91,7 +91,7 @@ Gestão completa de AF_XDP e do programa BPF. Expõe três funções:
 Define também os tipos centrais:
 
 ```c
-// Payload completo — 256 bytes fixos (verificado por _Static_assert)
+// Payload completo - 256 bytes fixos (verificado por _Static_assert)
 typedef struct __attribute__((packed)) {
     char     magic[4];       //  0: "STLH"
     uint32_t seq;            //  4: big-endian
@@ -113,8 +113,8 @@ Implementação criptográfica com OpenSSL 3.x. Expõe duas funções:
 | `stealth_decrypt(ct, len, iv, hmac, pt)` | Recomputa HMAC, compara com `CRYPTO_memcmp` (tempo constante), só decifra se HMAC válido |
 
 Chaves pré-partilhadas hardcoded (32 bytes cada):
-- `PSK_ENC` — chave de cifragem AES-256-CTR
-- `PSK_MAC` — chave de autenticação HMAC-SHA256 (separada, obrigatório para provas EtM)
+- `PSK_ENC` - chave de cifragem AES-256-CTR
+- `PSK_MAC` - chave de autenticação HMAC-SHA256 (separada, obrigatório para provas EtM)
 
 ### `xdp/xdp_kern.c`
 Programa eBPF que corre no kernel, no hook XDP do driver `mlx5`, antes de qualquer alocação `sk_buff`. Define três BPF maps:
@@ -135,7 +135,7 @@ Caminho de decisão (fast path, bounded latency):
 ### `stealth_setup.sh`
 Script de setup do ambiente de teste num único host físico:
 1. Limpar estado anterior (detach XDP, remover namespaces existentes)
-2. Configurar interfaces no host: `ethtool -L combined 1` (obrigatório — RSS com múltiplas queues causa perda silenciosa, AF_XDP bind à queue 0), `GRO/LRO off`
+2. Configurar interfaces no host: `ethtool -L combined 1` (obrigatório - RSS com múltiplas queues causa perda silenciosa, AF_XDP bind à queue 0), `GRO/LRO off`
 3. Criar namespaces `mac1` e `mac2`, mover interfaces para cada um
 4. Montar `bpffs` dentro de cada namespace (`mount -t bpf bpf /sys/fs/bpf/`)
 
@@ -148,7 +148,7 @@ Dois targets principais:
 | `clean` | Remove `.o`, `stealth_shell_xdp` e `xdp/xdp_prog.o` |
 
 Flags relevantes:
-- BPF: `-O2 -g -target bpf -D__BPF_TRACING__` — o `-g` é obrigatório para gerar BTF metadata que `libbpf` precisa de carregar
+- BPF: `-O2 -g -target bpf -D__BPF_TRACING__` - o `-g` é obrigatório para gerar BTF metadata que `libbpf` precisa de carregar
 - Userspace: `-Wall -Wextra -O2 -D_GNU_SOURCE`
 - Linker: `-lxdp -lbpf -lssl -lcrypto`
 
@@ -156,7 +156,7 @@ Flags relevantes:
 
 ## Arquitetura e implementação
 
-### Camada 1 — Frame Crafting
+### Camada 1 - Frame Crafting
 
 O frame de 270 bytes é construído diretamente num slot do UMEM TX, sem cópias intermédias:
 
@@ -176,31 +176,31 @@ Offset  Size  Campo
          270B total
 ```
 
-O MAC de origem é gerado com `fread(/dev/urandom)`, com o bit locally-administered (`mac[0] |= 0x02`) e o bit multicast limpo (`mac[0] &= 0xFE`), resultando num endereço unicast válido mas diferente por frame — impede correlação de frames por análise L2.
+O MAC de origem é gerado com `fread(/dev/urandom)`, com o bit locally-administered (`mac[0] |= 0x02`) e o bit multicast limpo (`mac[0] &= 0xFE`), resultando num endereço unicast válido mas diferente por frame - impede correlação de frames por análise L2.
 
-### Camada 2 — XDP Interception
+### Camada 2 - XDP Interception
 
 O programa BPF é carregado via `bpf_object__open` + `bpf_object__load` e anexado com `bpf_xdp_attach(..., XDP_FLAGS_DRV_MODE, NULL)`. Antes do attach, são feitos detach de todos os modos (DRV, SKB, HW) para eliminar programas residuais de sessões anteriores, seguido de `usleep(100ms)` para o kernel processar.
 
-Após o attach, o daemon verifica que o `prog_id` do programa anexado à interface corresponde ao `prog_id` do objeto carregado — falha explicitamente se houver mismatch.
+Após o attach, o daemon verifica que o `prog_id` do programa anexado à interface corresponde ao `prog_id` do objeto carregado - falha explicitamente se houver mismatch.
 
 O socket AF_XDP é criado com `XSK_LIBBPF_FLAGS__INHIBIT_PROG_LOAD` (não carrega um segundo programa XDP) e registado em `xsks_map[0]` via `bpf_map_update_elem`.
 
-### Camada 3 — AF_XDP Userspace Consumer
+### Camada 3 - AF_XDP Userspace Consumer
 
 O UMEM de `2048 × 4096 bytes` é dividido em duas zonas:
 
 ```
-Frame 0..1023    → Fill ring (RX) — pré-carregados no init
-Frame 1024..2047 → TX zone — tx_frame_idx incrementa ciclicamente
+Frame 0..1023    → Fill ring (RX) - pré-carregados no init
+Frame 1024..2047 → TX zone - tx_frame_idx incrementa ciclicamente
 ```
 
 Esta divisão foi introduzida para resolver um bug crítico onde o kernel e o userspace sobrescreviam os buffers um do outro quando o UMEM era partilhado sem partição.
 
 **RX path:**
-1. `xsk_ring_cons__peek(&rx, 1, &idx)` — verifica se há frame disponível
+1. `xsk_ring_cons__peek(&rx, 1, &idx)` - verifica se há frame disponível
 2. Lê `addr` e `len` do descritor
-3. `xsk_umem__get_data(buffer, addr)` — acesso direto ao UMEM (zero-copy)
+3. `xsk_umem__get_data(buffer, addr)` - acesso direto ao UMEM (zero-copy)
 4. `memcpy(pkt, frame + ETH_HDR_LEN, sizeof(stealth_pkt_t))`
 5. Devolve frame ao fill ring para reutilização
 
@@ -228,9 +228,9 @@ AES-256-CTR(PSK_ENC, IV) ──► Ciphertext
 HMAC-SHA256(PSK_MAC, IV ∥ Ciphertext) ──► Tag (32B)
 ```
 
-Na decifragem, o HMAC é **sempre verificado antes** de qualquer decifragem, usando `CRYPTO_memcmp` (comparação em tempo constante — evita timing side-channels). Se o HMAC falhar, o pacote é descartado sem tentar decifrar.
+Na decifragem, o HMAC é **sempre verificado antes** de qualquer decifragem, usando `CRYPTO_memcmp` (comparação em tempo constante - evita timing side-channels). Se o HMAC falhar, o pacote é descartado sem tentar decifrar.
 
-A API `EVP_MAC` do OpenSSL 3.x é usada em modo incremental: `EVP_MAC_update(ctx, iv, 16)` seguido de `EVP_MAC_update(ctx, ct, len)` — evita alocar buffer para concatenar IV e CT.
+A API `EVP_MAC` do OpenSSL 3.x é usada em modo incremental: `EVP_MAC_update(ctx, iv, 16)` seguido de `EVP_MAC_update(ctx, ct, len)` - evita alocar buffer para concatenar IV e CT.
 
 Incluir o IV no scope do HMAC previne **IV-replacement attacks**: em AES-CTR, substituir o IV altera o keystream sem alterar o CT, corrompendo o plaintext de forma potencialmente controlada. Com o IV autenticado, qualquer alteração ao IV invalida o tag antes da decifragem.
 
@@ -241,7 +241,7 @@ Incluir o IV no scope do HMAC previne **IV-replacement attacks**: em AES-CTR, su
 | `tcpdump` / `AF_PACKET` no receptor | **Não** | XDP zero-copy bypassa kernel stack na receção |
 | `tcpdump` / `AF_PACKET` no emissor | **Não** | AF_XDP TX bypassa kernel stack e `tc` egress hooks |
 | `tc` egress mirror no emissor | **Não** | `XDP_FLAGS_DRV_MODE` e `tc clsact` conflituam no `mlx5` |
-| Switch não gerido (3ª porta) | **Parcial** | Broadcast flooded — frame existe, payload encriptado |
+| Switch não gerido (3ª porta) | **Parcial** | Broadcast flooded - frame existe, payload encriptado |
 | Switch gerido com SPAN | **Sim** | Mirror ocorre antes da NIC; EtherType e magic visíveis |
 | Hardware TAP (inline) | **Sim** | Intercepção física; payload encriptado |
 
@@ -272,8 +272,8 @@ make
 ```
 
 Produz:
-- `xdp/xdp_prog.o` — BPF bytecode com BTF metadata
-- `stealth_shell_xdp` — daemon userspace
+- `xdp/xdp_prog.o` - BPF bytecode com BTF metadata
+- `stealth_shell_xdp` - daemon userspace
 
 ```bash
 make clean   # remove todos os artefactos compilados
@@ -334,7 +334,7 @@ sudo ip netns exec mac2 ./stealth_shell_xdp enp2s0f1np1
 O daemon imprime ao arranque:
 
 ```
-[+] XDP NATIVE em 'enp2s0f0np0' — prog_id nosso=42 anexado=42 ✓
+[+] XDP NATIVE em 'enp2s0f0np0' - prog_id nosso=42 anexado=42 ✓
 [+] AF_XDP socket: NATIVE + ZERO-COPY on 'enp2s0f0np0'
 [+] Socket fd=7 registado em xsks_map[0]
 [+] UMEM: 1024 frames RX | 1024 frames TX
@@ -385,4 +385,4 @@ sudo ip netns del mac2
 make clean
 ```
 
-Ou simplesmente correr `stealth_setup.sh` novamente — a primeira coisa que faz é limpar o estado anterior.
+Ou simplesmente correr `stealth_setup.sh` novamente - a primeira coisa que faz é limpar o estado anterior.
