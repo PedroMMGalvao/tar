@@ -385,4 +385,4 @@ sudo ip netns del mac2
 make clean
 ```
 
-Ou simplesmente correr `stealth_setup.sh` novamente - a primeira coisa que faz é limpar o estado anterior.
+Ou simplesmente correr `stealth_unsetup.sh` novamente - a primeira coisa que faz é limpar o estado anterior.
