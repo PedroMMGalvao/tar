@@ -1,5 +1,0 @@
-<map id="xsk_send_packet" name="xsk_send_packet">
-<area shape="rect" id="Node000001" title="Envia um pacote stealth formatado através do ring de TX da interface." alt="" coords="5,5,129,32"/>
-<area shape="rect" id="Node000002" href="$stealth__net_8c.html#ab2386909407909691fa7140e9020f7a7" title="Gera um endereço MAC pseudo&#45;aleatório através do /dev/urandom." alt="" coords="177,5,330,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,16,163,18,158,19,129,21"/>
-</map>

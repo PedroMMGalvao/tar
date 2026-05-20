@@ -1,7 +1,0 @@
-<map id="generate_random_mac" name="generate_random_mac">
-<area shape="rect" id="Node000001" title="Gera um endereço MAC pseudo&#45;aleatório através do /dev/urandom." alt="" coords="274,5,427,32"/>
-<area shape="rect" id="Node000002" href="$stealth__net_8c.html#ac2dfb903f0be71b96ca245dea391e9a8" title="Envia um pacote stealth formatado através do ring de TX da interface." alt="" coords="103,5,226,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,19,226,21,226,16,261,19"/>
-<area shape="rect" id="Node000003" href="$stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,5,55,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,20,55,21,55,16,89,18"/>
-</map>
