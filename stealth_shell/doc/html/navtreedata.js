@@ -51,6 +51,6 @@ var NAVTREEINDEX =
 "annotated.html"
 ];
 
-var SYNCONMSG = 'clique para desativar a sincronização do painel';
-var SYNCOFFMSG = 'clique para ativar a sincronização do painel';
-var LISTOFALLMEMBERS = 'Mostrar lista completa dos membros';
+const SYNCONMSG = 'clique para desativar a sincronização do painel';
+const SYNCOFFMSG = 'clique para ativar a sincronização do painel';
+const LISTOFALLMEMBERS = 'Mostrar lista completa dos membros';
