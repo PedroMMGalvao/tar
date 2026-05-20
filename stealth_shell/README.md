@@ -317,7 +317,6 @@ make clean   # remove todos os artefactos compilados
 O projeto inclui um `Doxyfile`, por isso a documentação pode ser gerada novamente com:
 
 ```bash
-cd stealth_shell
 doxygen Doxyfile
 ```
 
