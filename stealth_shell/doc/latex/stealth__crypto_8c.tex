@@ -11,8 +11,13 @@ Implementações criptográficas utilizando a API Open\+SSL EVP Providers.
 {\ttfamily \+\#include $<$openssl/\+rand.\+h$>$}\newline
 {\ttfamily \+\#include $<$openssl/\+params.\+h$>$}\newline
 {\ttfamily \+\#include $<$openssl/\+core\+\_\+names.\+h$>$}\newline
-Diagrama de dependências de inclusão para stealth\+\_\+crypto.\+c:\+
-% FIG 0
+Diagrama de dependências de inclusão para stealth\+\_\+crypto.\+c:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__crypto_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -47,7 +52,7 @@ Implementações criptográficas utilizando a API Open\+SSL EVP Providers.
 
 
 
-\label{stealth__crypto_8c_doc-func-members}
+\label{doc-func-members}
 \Hypertarget{stealth__crypto_8c_doc-func-members}
 \doxysubsection{Documentação das funções}
 \Hypertarget{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a}\index{stealth\_crypto.c@{stealth\_crypto.c}!compute\_hmac@{compute\_hmac}}
@@ -74,8 +79,13 @@ Função interna para cálculo do MAC sobre o vetor de inicialização e a carga
 \begin{DoxyReturn}{Retorna}
 1 em caso de sucesso, 0 se houver erros na inicialização ou alimentação do contexto MAC. 
 \end{DoxyReturn}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 1
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd}\index{stealth\_crypto.c@{stealth\_crypto.c}!stealth\_decrypt@{stealth\_decrypt}}
 \index{stealth\_decrypt@{stealth\_decrypt}!stealth\_crypto.c@{stealth\_crypto.c}}
 \doxysubsubsection{\texorpdfstring{stealth\_decrypt()}{stealth\_decrypt()}}
@@ -102,10 +112,20 @@ Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado.
 \begin{DoxyReturn}{Retorna}
 1 se o HMAC for autêntico e a decifragem concluir, 0 se o pacote for corrompido/\+adulterado. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 2
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 3
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1}\index{stealth\_crypto.c@{stealth\_crypto.c}!stealth\_encrypt@{stealth\_encrypt}}
 \index{stealth\_encrypt@{stealth\_encrypt}!stealth\_crypto.c@{stealth\_crypto.c}}
 \doxysubsubsection{\texorpdfstring{stealth\_encrypt()}{stealth\_encrypt()}}
@@ -132,7 +152,17 @@ Encripta o plaintext usando AES-\/256-\/\+CTR e calcula a respetiva tag HMAC-\/\
 \begin{DoxyReturn}{Retorna}
 1 se a operação foi bem-\/sucedida, 0 se ocorreu falha na cifragem ou entropia. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 4
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 5
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1_icgraph}
+\end{center}
+\end{figure}

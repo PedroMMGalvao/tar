@@ -1,0 +1,7 @@
+<map id="stealth_crypto.h" name="stealth_crypto.h">
+<area shape="rect" id="Node000001" title="Módulo criptográfico focado em cifragem simétrica e integridade de dados." alt="" coords="72,5,186,32"/>
+<area shape="rect" id="Node000002" href="$stealth__crypto_8c.html" title="Implementações criptográficas utilizando a API OpenSSL EVP Providers." alt="" coords="5,80,120,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,43,76,82,72,78,105,44"/>
+<area shape="rect" id="Node000003" href="$stealth__shell_8c.html" title="Programa principal (Userspace CLI) do Stealth Shell baseado em AF_XDP." alt="" coords="143,80,248,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,41,187,80,182,79,150,46"/>
+</map>

@@ -1,0 +1,38 @@
+<map id="stealth_shell/stealth_shell.c" name="stealth_shell/stealth_shell.c">
+<area shape="rect" id="Node000001" title="Programa principal (Userspace CLI) do Stealth Shell baseado em AF_XDP." alt="" coords="496,5,634,48"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,96,66,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="493,36,312,59,198,76,82,98,80,93,198,71,311,54,498,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="89,96,152,123"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="493,39,349,63,169,98,167,93,349,58,498,37"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="177,96,241,123"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="494,44,257,98,255,93,498,40"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="265,96,331,123"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="494,49,347,96,345,91,499,48"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="356,96,408,123"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="520,48,423,93,422,88,515,49"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="432,96,500,123"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="542,48,495,88,492,84,537,50"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="524,96,606,123"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="567,47,567,82,563,79,563,51"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="630,96,711,123"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="593,46,644,87,639,86,591,51"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="735,96,832,123"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="622,46,738,90,732,90,621,51"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="856,96,917,123"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="634,41,843,95,838,96,633,47"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="942,96,1039,123"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="634,38,929,95,924,96,634,43"/>
+<area shape="rect" id="Node000013" href="$stealth__net_8h.html" title="Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell." alt="" coords="1063,96,1160,123"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="634,34,817,58,1051,95,1045,96,817,63,634,39"/>
+<area shape="rect" id="Node000017" href="$stealth__crypto_8h.html" title="Módulo criptográfico focado em cifragem simétrica e integridade de dados." alt="" coords="1184,96,1298,123"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="634,32,867,56,1171,95,1166,96,866,61,634,37"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1175,171,1240,197"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1129,121,1181,162,1176,160,1127,126"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="964,171,1049,197"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="1096,122,1038,164,1036,159,1091,124"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1072,171,1151,197"/>
+<area shape="poly" id="edge15_Node000013_Node000016" title=" " alt="" coords="1113,121,1113,157,1110,153,1110,125"/>
+<area shape="poly" id="edge17_Node000017_Node000014" title=" " alt="" coords="1237,122,1221,159,1218,154,1233,125"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="1264,171,1332,197"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="1252,121,1281,160,1276,157,1250,126"/>
+</map>

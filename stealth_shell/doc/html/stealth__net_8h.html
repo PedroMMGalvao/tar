@@ -3,11 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>XDP Stealth Shell: Referência ao ficheiro stealth_net.h</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -16,11 +17,6 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="module">
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
-mermaid.initialize({ startOnLoad: true, theme: theme });
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -38,45 +34,22 @@ mermaid.initialize({ startOnLoad: true, theme: theme });
 </table>
 </div>
 <!-- end header part -->
-<!-- Gerado por Doxygen 1.17.0 -->
+<!-- Gerado por Doxygen 1.16.1 -->
 <script type="text/javascript">
-let searchBox = new SearchBox("searchBox", "search/",'.html');
+var searchBox = new SearchBox("searchBox", "search/",'.html');
 </script>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', codefold.init);
+$(function() { codefold.init(); });
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',true);
-  init_search();
+$(function() {
+  initMenu('',true,false,'search.php','Localizar',true);
+  $(function() { init_search(); });
 });
 </script>
-<div id="main-nav-mobile">
-<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
-<label class="main-menu-btn" for="main-menu-state">
-<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
-<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
-</div>
-</div><!-- main-nav-mobile -->
-<div id="main-nav">
-  <ul class="sm sm-dox" id="main-menu">
-    <li id="searchBoxPos2" style="float:right">
-        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
-          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
-          </span>
-        </div>
-    </li>
-  </ul>
-</div><!-- main-nav -->
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -89,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded',() => { initNavTree('stealth__net_8h.html','',''); });
+$(function(){initNavTree('stealth__net_8h.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -128,13 +101,27 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('stealth__net_8
 Diagrama de dependências de inclusão para stealth_net.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h__incl.png" border="0" usemap="#astealth__net_8h" loading="lazy" alt=""/></div>
-<!-- MAP 0 -->
+<map name="astealth__net_8h" id="astealth__net_8h">
+<area shape="rect" title="Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell." alt="" coords="88,5,184,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,70,107"/>
+<area shape="poly" title=" " alt="" coords="122,32,68,73,65,69,116,33"/>
+<area shape="rect" title=" " alt="" coords="94,80,179,107"/>
+<area shape="poly" title=" " alt="" coords="138,31,139,66,134,63,134,35"/>
+<area shape="rect" title=" " alt="" coords="202,80,281,107"/>
+<area shape="poly" title=" " alt="" coords="155,30,213,71,208,71,154,35"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h__dep__incl.png" border="0" usemap="#astealth__net_8hdep" loading="lazy" alt=""/></div>
-<!-- MAP 1 -->
+<map name="astealth__net_8hdep" id="astealth__net_8hdep">
+<area shape="rect" title="Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell." alt="" coords="68,5,164,32"/>
+<area shape="rect" href="stealth__net_8c.html" title="Implementações de baixo nível para orquestração de rings AF_XDP e carregamento eBPF." alt="" coords="5,80,102,107"/>
+<area shape="poly" title=" " alt="" coords="98,43,66,82,62,78,93,45"/>
+<area shape="rect" href="stealth__shell_8c.html" title="Programa principal (Userspace CLI) do Stealth Shell baseado em AF_XDP." alt="" coords="126,80,232,107"/>
+<area shape="poly" title=" " alt="" coords="138,42,171,80,165,79,136,46"/>
+</map>
 </div>
 </div>
 <p><a href="stealth__net_8h_source.html">Ir para o código fonte deste ficheiro.</a></p>
@@ -313,7 +300,13 @@ Variáveis</h2></td></tr>
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph.png" border="0" usemap="#astealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 2 -->
+<map name="astealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph" id="astealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph">
+<area shape="rect" title="Realiza o desanexamento do programa XDP e liberta todos os recursos do socket." alt="" coords="224,5,364,32"/>
+<area shape="rect" href="stealth__shell_8c.html#ad1a077ebed5ed14af0d201d951308654" title="Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo." alt="" coords="103,5,176,32"/>
+<area shape="poly" title=" " alt="" coords="205,19,176,21,176,16,211,19"/>
+<area shape="rect" href="stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,5,55,32"/>
+<area shape="poly" title=" " alt="" coords="85,20,55,21,55,16,90,18"/>
+</map>
 </div>
 
 </div>
@@ -345,13 +338,21 @@ Este é o diagrama das funções que utilizam esta função:</div>
 Grafo de chamadas desta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph.png" border="0" usemap="#astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph" loading="lazy" alt=""/></div>
-<!-- MAP 3 -->
+<map name="astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph" id="astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph">
+<area shape="rect" title="Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada." alt="" coords="5,5,118,32"/>
+<area shape="rect" href="stealth__net_8c.html#a9d41c2500988d3a978d0c99875c27bf6" title="Callback costumizado para supressão de mensagens informativas da libbpf." alt="" coords="166,5,253,32"/>
+<area shape="poly" title=" " alt="" coords="118,16,153,18,147,19,118,21"/>
+</map>
 </div>
 <div class="dynheader">
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph.png" border="0" usemap="#astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 4 -->
+<map name="astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph" id="astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph">
+<area shape="rect" title="Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada." alt="" coords="103,5,215,32"/>
+<area shape="rect" href="stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,5,55,32"/>
+<area shape="poly" title=" " alt="" coords="85,19,55,21,55,16,90,18"/>
+</map>
 </div>
 
 </div>
@@ -388,7 +389,11 @@ Este é o diagrama das funções que utilizam esta função:</div>
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph.png" border="0" usemap="#astealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 5 -->
+<map name="astealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph" id="astealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph">
+<area shape="rect" title="Verifica o anel de receção e extrai um frame stealth se disponível." alt="" coords="103,5,240,32"/>
+<area shape="rect" href="stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,5,55,32"/>
+<area shape="poly" title=" " alt="" coords="85,20,55,21,55,16,90,18"/>
+</map>
 </div>
 
 </div>
@@ -425,13 +430,21 @@ Este é o diagrama das funções que utilizam esta função:</div>
 Grafo de chamadas desta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph.png" border="0" usemap="#astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph" loading="lazy" alt=""/></div>
-<!-- MAP 6 -->
+<map name="astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph" id="astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph">
+<area shape="rect" title="Envia um pacote stealth formatado através do ring de TX da interface." alt="" coords="5,5,129,32"/>
+<area shape="rect" href="stealth__net_8c.html#ab2386909407909691fa7140e9020f7a7" title="Gera um endereço MAC pseudo&#45;aleatório através do /dev/urandom." alt="" coords="177,5,330,32"/>
+<area shape="poly" title=" " alt="" coords="129,16,163,18,158,19,129,21"/>
+</map>
 </div>
 <div class="dynheader">
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph.png" border="0" usemap="#astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 7 -->
+<map name="astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph" id="astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph">
+<area shape="rect" title="Envia um pacote stealth formatado através do ring de TX da interface." alt="" coords="103,5,226,32"/>
+<area shape="rect" href="stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,5,55,32"/>
+<area shape="poly" title=" " alt="" coords="84,20,55,21,55,16,89,18"/>
+</map>
 </div>
 
 </div>
@@ -450,7 +463,7 @@ Este é o diagrama das funções que utilizam esta função:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a href="stealth__net_8h.html">stealth_net.h</a></li>
-    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>
 </body>

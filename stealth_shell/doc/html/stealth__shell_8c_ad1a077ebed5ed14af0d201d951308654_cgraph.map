@@ -1,0 +1,5 @@
+<map id="on_sigint" name="on_sigint">
+<area shape="rect" id="Node000001" title="Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo." alt="" coords="5,5,79,32"/>
+<area shape="rect" id="Node000002" href="$stealth__net_8c.html#ade686245a281d30b370ed9861f14f916" title="Realiza o desanexamento do programa XDP e liberta todos os recursos do socket." alt="" coords="127,5,267,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,16,114,18,109,19,79,21"/>
+</map>

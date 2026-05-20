@@ -1,0 +1,215 @@
+\doxysection{Referência ao ficheiro stealth\+\_\+shell/\+stealth\+\_\+shell.c}
+\hypertarget{stealth__shell_8c}{}\label{stealth__shell_8c}\index{stealth\_shell/stealth\_shell.c@{stealth\_shell/stealth\_shell.c}}
+
+
+Programa principal (Userspace CLI) do Stealth Shell baseado em AF\+\_\+\+XDP.  
+
+
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$signal.\+h$>$}\newline
+{\ttfamily \+\#include $<$poll.\+h$>$}\newline
+{\ttfamily \+\#include $<$unistd.\+h$>$}\newline
+{\ttfamily \+\#include $<$arpa/\+inet.\+h$>$}\newline
+{\ttfamily \+\#include $<$sys/\+ioctl.\+h$>$}\newline
+{\ttfamily \+\#include $<$sys/\+socket.\+h$>$}\newline
+{\ttfamily \+\#include $<$net/\+if.\+h$>$}\newline
+{\ttfamily \+\#include $<$linux/\+if\+\_\+link.\+h$>$}\newline
+{\ttfamily \+\#include "{}stealth\+\_\+net.\+h"{}}\newline
+{\ttfamily \+\#include "{}stealth\+\_\+crypto.\+h"{}}\newline
+Diagrama de dependências de inclusão para stealth\+\_\+shell.\+c:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__shell_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__shell_8c_ac5d957e4fd3dc11cd97a54cf9ca057a4}\label{stealth__shell_8c_ac5d957e4fd3dc11cd97a54cf9ca057a4} 
+\+\#define {\bfseries RST}~"{}\textbackslash{}x1b\+[0m"{}
+\item 
+\Hypertarget{stealth__shell_8c_a26cdbb1a00213c810caccf21cd33a631}\label{stealth__shell_8c_a26cdbb1a00213c810caccf21cd33a631} 
+\+\#define {\bfseries BOLD}~"{}\textbackslash{}x1b\+[1m"{}
+\item 
+\Hypertarget{stealth__shell_8c_a8d23feea868a983c8c2b661e1e16972f}\label{stealth__shell_8c_a8d23feea868a983c8c2b661e1e16972f} 
+\+\#define {\bfseries RED}~"{}\textbackslash{}x1b\+[31m"{}
+\item 
+\Hypertarget{stealth__shell_8c_aea69ffbacdcdf16c21b8c9961df84448}\label{stealth__shell_8c_aea69ffbacdcdf16c21b8c9961df84448} 
+\+\#define {\bfseries GRN}~"{}\textbackslash{}x1b\+[32m"{}
+\item 
+\Hypertarget{stealth__shell_8c_add9307de87f38e77d336751e305886f6}\label{stealth__shell_8c_add9307de87f38e77d336751e305886f6} 
+\+\#define {\bfseries BLU}~"{}\textbackslash{}x1b\+[34m"{}
+\item 
+\Hypertarget{stealth__shell_8c_af54a5a977c0c499323d656315f008ee0}\label{stealth__shell_8c_af54a5a977c0c499323d656315f008ee0} 
+\+\#define {\bfseries MAG}~"{}\textbackslash{}x1b\+[35m"{}
+\item 
+\Hypertarget{stealth__shell_8c_adc708fa688f5d78db361f66c36f0f807}\label{stealth__shell_8c_adc708fa688f5d78db361f66c36f0f807} 
+\+\#define {\bfseries CYN}~"{}\textbackslash{}x1b\+[36m"{}
+\item 
+\Hypertarget{stealth__shell_8c_aeaf3a04d5bf63b204689a714718ea930}\label{stealth__shell_8c_aeaf3a04d5bf63b204689a714718ea930} 
+\+\#define {\bfseries WHT}~"{}\textbackslash{}x1b\+[37m"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654}{on\+\_\+sigint}} (int sig)
+\begin{DoxyCompactList}\small\item\em Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo. \end{DoxyCompactList}\item 
+static void \doxymbox{\hyperlink{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa}{print\+\_\+hex}} (const char \texorpdfstring{$\ast$}{*}label, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Utilitário auxiliar para despejo hexadecimal de dados na consola (Hexdump). \end{DoxyCompactList}\item 
+static int \doxymbox{\hyperlink{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293}{get\+\_\+local\+\_\+mac}} (const char \texorpdfstring{$\ast$}{*}ifname, uint8\+\_\+t \texorpdfstring{$\ast$}{*}mac)
+\begin{DoxyCompactList}\small\item\em Obtém o endereço MAC de hardware associado à interface local configurada. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\begin{DoxyCompactList}\small\item\em Ponto de entrada do executável da aplicação. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variáveis}
+\begin{DoxyCompactItemize}
+\item 
+static struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{stealth__shell_8c_a9bda3bae4269f931be4167897b0c8cb3}{g\+\_\+xsk}} = NULL
+\item 
+static const char \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{stealth__shell_8c_a7c7c652180072f6d3bda0cd6d91631f0}{g\+\_\+iface}} = NULL
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Programa principal (Userspace CLI) do Stealth Shell baseado em AF\+\_\+\+XDP. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{stealth__shell_8c_doc-func-members}
+\doxysubsection{Documentação das funções}
+\Hypertarget{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293}\index{stealth\_shell.c@{stealth\_shell.c}!get\_local\_mac@{get\_local\_mac}}
+\index{get\_local\_mac@{get\_local\_mac}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{get\_local\_mac()}{get\_local\_mac()}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293} 
+int get\+\_\+local\+\_\+mac (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{ifname}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{mac}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Obtém o endereço MAC de hardware associado à interface local configurada. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em ifname} & String representativa do nome do interface de rede. \\
+\hline
+{\em mac} & Array de destino com capacidade de 6 bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+0 se lido com sucesso, -\/1 caso ocorra falha na execução do ioctl. 
+\end{DoxyReturn}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627}\index{stealth\_shell.c@{stealth\_shell.c}!main@{main}}
+\index{main@{main}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv}{}\end{DoxyParamCaption})}
+
+
+
+Ponto de entrada do executável da aplicação. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em argc} & Contador de argumentos em linha de comandos. \\
+\hline
+{\em argv} & Vetor de apontadores contendo os argumentos textuais. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+Código de execução (0 para término regular, 1 para falhas estruturais). 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654}\index{stealth\_shell.c@{stealth\_shell.c}!on\_sigint@{on\_sigint}}
+\index{on\_sigint@{on\_sigint}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{on\_sigint()}{on\_sigint()}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654} 
+void on\+\_\+sigint (\begin{DoxyParamCaption}\item[{int}]{sig}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em sig} & Número identificador do sinal intercetado. \\
+\hline
+\end{DoxyParams}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa}\index{stealth\_shell.c@{stealth\_shell.c}!print\_hex@{print\_hex}}
+\index{print\_hex@{print\_hex}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{print\_hex()}{print\_hex()}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa} 
+void print\+\_\+hex (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{label}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{size\+\_\+t}]{len}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Utilitário auxiliar para despejo hexadecimal de dados na consola (Hexdump). 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em label} & Título identificador a imprimir antes do dump. \\
+\hline
+{\em data} & Ponteiro para a sequência de bytes. \\
+\hline
+{\em len} & Número de bytes a processar para impressão. \\
+\hline
+\end{DoxyParams}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-var-members}
+\Hypertarget{stealth__shell_8c_doc-var-members}
+\doxysubsection{Documentação das variáveis}
+\Hypertarget{stealth__shell_8c_a7c7c652180072f6d3bda0cd6d91631f0}\index{stealth\_shell.c@{stealth\_shell.c}!g\_iface@{g\_iface}}
+\index{g\_iface@{g\_iface}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{g\_iface}{g\_iface}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_a7c7c652180072f6d3bda0cd6d91631f0} 
+const char\texorpdfstring{$\ast$}{*} g\+\_\+iface = NULL\hspace{0.3cm}{\ttfamily [static]}}
+
+Guardião global do nome da interface de rede em uso \Hypertarget{stealth__shell_8c_a9bda3bae4269f931be4167897b0c8cb3}\index{stealth\_shell.c@{stealth\_shell.c}!g\_xsk@{g\_xsk}}
+\index{g\_xsk@{g\_xsk}!stealth\_shell.c@{stealth\_shell.c}}
+\doxysubsubsection{\texorpdfstring{g\_xsk}{g\_xsk}}
+{\footnotesize\ttfamily \label{stealth__shell_8c_a9bda3bae4269f931be4167897b0c8cb3} 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}}\texorpdfstring{$\ast$}{*} g\+\_\+xsk = NULL\hspace{0.3cm}{\ttfamily [static]}}
+
+Contexto global do socket AF\+\_\+\+XDP 

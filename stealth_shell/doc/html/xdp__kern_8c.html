@@ -3,11 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>XDP Stealth Shell: Referência ao ficheiro xdp/xdp_kern.c</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -16,11 +17,6 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="module">
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
-mermaid.initialize({ startOnLoad: true, theme: theme });
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -38,45 +34,22 @@ mermaid.initialize({ startOnLoad: true, theme: theme });
 </table>
 </div>
 <!-- end header part -->
-<!-- Gerado por Doxygen 1.17.0 -->
+<!-- Gerado por Doxygen 1.16.1 -->
 <script type="text/javascript">
-let searchBox = new SearchBox("searchBox", "search/",'.html');
+var searchBox = new SearchBox("searchBox", "search/",'.html');
 </script>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', codefold.init);
+$(function() { codefold.init(); });
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',true);
-  init_search();
+$(function() {
+  initMenu('',true,false,'search.php','Localizar',true);
+  $(function() { init_search(); });
 });
 </script>
-<div id="main-nav-mobile">
-<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
-<label class="main-menu-btn" for="main-menu-state">
-<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
-<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
-</div>
-</div><!-- main-nav-mobile -->
-<div id="main-nav">
-  <ul class="sm sm-dox" id="main-menu">
-    <li id="searchBoxPos2" style="float:right">
-        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
-          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
-          </span>
-        </div>
-    </li>
-  </ul>
-</div><!-- main-nav -->
+<div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -89,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded',() => { initNavTree('xdp__kern_8c.html','',''); });
+$(function(){initNavTree('xdp__kern_8c.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -129,7 +102,17 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('xdp__kern_8c.h
 Diagrama de dependências de inclusão para xdp_kern.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="xdp__kern_8c__incl.png" border="0" usemap="#axdp_2xdp__kern_8c" loading="lazy" alt=""/></div>
-<!-- MAP 0 -->
+<map name="axdp_2xdp__kern_8c" id="axdp_2xdp__kern_8c">
+<area shape="rect" title="Programa eBPF executado no Kernel para filtragem e redirecionamento de pacotes." alt="" coords="176,5,286,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,87,107"/>
+<area shape="poly" title=" " alt="" coords="200,35,93,76,92,71,198,30"/>
+<area shape="rect" title=" " alt="" coords="110,80,216,107"/>
+<area shape="poly" title=" " alt="" coords="222,31,187,71,184,66,217,34"/>
+<area shape="rect" title=" " alt="" coords="240,80,361,107"/>
+<area shape="poly" title=" " alt="" coords="244,30,281,69,275,68,242,35"/>
+<area shape="rect" title=" " alt="" coords="386,80,503,107"/>
+<area shape="poly" title=" " alt="" coords="269,30,396,74,391,75,268,35"/>
+</map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -274,7 +257,12 @@ Variáveis</h2></td></tr>
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="xdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2_icgraph.png" border="0" usemap="#axdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 1 -->
+<map name="axdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2_icgraph" id="axdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2_icgraph">
+<area shape="rect" title="Incrementa de forma atómica os contadores de estatísticas no mapa eBPF." alt="" coords="174,29,248,56"/>
+<area shape="rect" href="xdp__kern_8c.html#a8e3c180e9bbe86d1fd995dc6d204ef8b" title="Filtro eBPF principal anexado ao gancho (hook) XDP do driver de rede." alt="" coords="5,29,126,56"/>
+<area shape="poly" title=" " alt="" coords="155,43,126,45,126,40,161,42"/>
+<area shape="poly" title=" " alt="" coords="89,14,81,10,65,8,51,10,43,14,41,20,45,29,40,29,36,21,39,11,49,5,66,3,83,5,94,14"/>
+</map>
 </div>
 
 </div>
@@ -317,13 +305,21 @@ Este é o diagrama das funções que utilizam esta função:</div>
 Grafo de chamadas desta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_cgraph.png" border="0" usemap="#axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_cgraph" loading="lazy" alt=""/></div>
-<!-- MAP 2 -->
+<map name="axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_cgraph" id="axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_cgraph">
+<area shape="rect" title="Filtro eBPF principal anexado ao gancho (hook) XDP do driver de rede." alt="" coords="5,29,126,56"/>
+<area shape="poly" title=" " alt="" coords="40,29,36,21,39,11,49,5,66,3,83,5,94,14,89,14,81,10,65,8,51,10,43,14,41,20,45,29"/>
+<area shape="rect" href="xdp__kern_8c.html#af43ba4ac6dcebeea0af84cf126c2f1f2" title="Incrementa de forma atómica os contadores de estatísticas no mapa eBPF." alt="" coords="174,29,248,56"/>
+<area shape="poly" title=" " alt="" coords="126,40,161,42,155,43,126,45"/>
+</map>
 </div>
 <div class="dynheader">
 Este é o diagrama das funções que utilizam esta função:</div>
 <div class="dyncontent">
 <div class="center"><img src="xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_icgraph.png" border="0" usemap="#axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_icgraph" loading="lazy" alt=""/></div>
-<!-- MAP 3 -->
+<map name="axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_icgraph" id="axdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_icgraph">
+<area shape="rect" title="Filtro eBPF principal anexado ao gancho (hook) XDP do driver de rede." alt="" coords="5,29,126,56"/>
+<area shape="poly" title=" " alt="" coords="84,14,78,10,65,8,54,10,47,14,46,20,49,29,44,29,40,20,43,11,52,5,66,3,81,5,89,14"/>
+</map>
 </div>
 
 </div>
@@ -373,7 +369,7 @@ Este é o diagrama das funções que utilizam esta função:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>xdp</b></li><li class="navelem"><a href="xdp__kern_8c.html">xdp_kern.c</a></li>
-    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>
 </body>

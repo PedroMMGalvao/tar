@@ -1,0 +1,262 @@
+\doxysection{Referência ao ficheiro stealth\+\_\+shell/\+stealth\+\_\+net.h}
+\hypertarget{stealth__net_8h}{}\label{stealth__net_8h}\index{stealth\_shell/stealth\_net.h@{stealth\_shell/stealth\_net.h}}
+
+
+Definições de rede e estruturas de dados para o socket AF\+\_\+\+XDP do Stealth Shell.  
+
+
+{\ttfamily \+\#include $<$stdint.\+h$>$}\newline
+{\ttfamily \+\#include $<$bpf/\+libbpf.\+h$>$}\newline
+{\ttfamily \+\#include $<$xdp/\+xsk.\+h$>$}\newline
+Diagrama de dependências de inclusão para stealth\+\_\+net.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{stealth__net_8h__incl}
+\end{center}
+\end{figure}
+Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{stealth__net_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Componentes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}}
+\begin{DoxyCompactList}\small\item\em Contexto operacional e rings de controlo associados ao socket AF\+\_\+\+XDP. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__net_8h_af297dcdbdcc0806e1a61148ffc215af4}\label{stealth__net_8h_af297dcdbdcc0806e1a61148ffc215af4} 
+\+\#define {\bfseries STEALTH\+\_\+\+ETHERTYPE}~0x88\+B5
+\begin{DoxyCompactList}\small\item\em Ether\+Type customizado para tráfego stealth (Protocolo experimental/\+local). \end{DoxyCompactList}\item 
+\Hypertarget{stealth__net_8h_aa1fd81cd810a89571aff4c0e8da503ff}\label{stealth__net_8h_aa1fd81cd810a89571aff4c0e8da503ff} 
+\+\#define {\bfseries STEALTH\+\_\+\+MAGIC}~"{}STLH"{}
+\begin{DoxyCompactList}\small\item\em Magic bytes para validação inicial de pacotes stealth. \end{DoxyCompactList}\item 
+\+\#define \doxymbox{\hyperlink{stealth__net_8h_ad7bb30dbf5882fdf05331918e8a0cc84}{IV\+\_\+\+SIZE}}~16
+\item 
+\+\#define \doxymbox{\hyperlink{stealth__net_8h_a47668e54458d49255620473617a4920e}{HMAC\+\_\+\+SIZE}}~32
+\item 
+\+\#define \doxymbox{\hyperlink{stealth__net_8h_aa7a7521abb3a3664218d8dc0e3759f0f}{MAX\+\_\+\+PAYLOAD}}~198
+\item 
+\Hypertarget{stealth__net_8h_a29200875a787834671e9836f2356ed8d}\label{stealth__net_8h_a29200875a787834671e9836f2356ed8d} 
+\+\#define {\bfseries ETH\+\_\+\+HDR\+\_\+\+LEN}~14
+\begin{DoxyCompactList}\small\item\em Comprimento fixo do cabeçalho Ethernet standard. \end{DoxyCompactList}\item 
+\+\#define \doxymbox{\hyperlink{stealth__net_8h_a966cb2eed4436763c207af4b32b08f53}{NUM\+\_\+\+FRAMES}}~2048
+\item 
+\+\#define \doxymbox{\hyperlink{stealth__net_8h_af9b1b2ba12857a4bf11289dac8c5462d}{FRAME\+\_\+\+SIZE}}~XSK\+\_\+\+UMEM\+\_\+\+\_\+\+DEFAULT\+\_\+\+FRAME\+\_\+\+SIZE
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{stealth__net_8h_ab898071398b359603a35c202e9c65f3b}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((packed))
+\item 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd}{init\+\_\+xsk\+\_\+socket}} (const char \texorpdfstring{$\ast$}{*}ifname)
+\begin{DoxyCompactList}\small\item\em Inicializa e configura o ambiente e\+BPF /\+ AF\+\_\+\+XDP na interface especificada. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{stealth__net_8h_ade686245a281d30b370ed9861f14f916}{cleanup\+\_\+xsk\+\_\+socket}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, const char \texorpdfstring{$\ast$}{*}ifname)
+\begin{DoxyCompactList}\small\item\em Realiza o desanexamento do programa XDP e liberta todos os recursos do socket. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8}{xsk\+\_\+send\+\_\+packet}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}pkt)
+\begin{DoxyCompactList}\small\item\em Envia um pacote stealth formatado através do ring de TX da interface. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9}{xsk\+\_\+receive\+\_\+packet}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}pkt)
+\begin{DoxyCompactList}\small\item\em Verifica o anel de receção e extrai um frame stealth se disponível. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variáveis}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__net_8h_acb876975c2826cfd9cb935bfe821facc}\label{stealth__net_8h_acb876975c2826cfd9cb935bfe821facc} 
+{\bfseries stealth\+\_\+pkt\+\_\+t}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Definições de rede e estruturas de dados para o socket AF\+\_\+\+XDP do Stealth Shell. 
+
+\begin{DoxyAuthor}{Autor}
+Pedro Galvão 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Data}
+2026 
+\end{DoxyDate}
+
+
+\label{doc-define-members}
+\Hypertarget{stealth__net_8h_doc-define-members}
+\doxysubsection{Documentação das macros}
+\Hypertarget{stealth__net_8h_af9b1b2ba12857a4bf11289dac8c5462d}\index{stealth\_net.h@{stealth\_net.h}!FRAME\_SIZE@{FRAME\_SIZE}}
+\index{FRAME\_SIZE@{FRAME\_SIZE}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{FRAME\_SIZE}{FRAME\_SIZE}}
+{\footnotesize\ttfamily \label{stealth__net_8h_af9b1b2ba12857a4bf11289dac8c5462d} 
+\+\#define FRAME\+\_\+\+SIZE~XSK\+\_\+\+UMEM\+\_\+\+\_\+\+DEFAULT\+\_\+\+FRAME\+\_\+\+SIZE}
+
+Tamanho padrão de cada frame no UMEM (normalmente 4KB) \Hypertarget{stealth__net_8h_a47668e54458d49255620473617a4920e}\index{stealth\_net.h@{stealth\_net.h}!HMAC\_SIZE@{HMAC\_SIZE}}
+\index{HMAC\_SIZE@{HMAC\_SIZE}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{HMAC\_SIZE}{HMAC\_SIZE}}
+{\footnotesize\ttfamily \label{stealth__net_8h_a47668e54458d49255620473617a4920e} 
+\+\#define HMAC\+\_\+\+SIZE~32}
+
+Tamanho do buffer HMAC-\/\+SHA256 \Hypertarget{stealth__net_8h_ad7bb30dbf5882fdf05331918e8a0cc84}\index{stealth\_net.h@{stealth\_net.h}!IV\_SIZE@{IV\_SIZE}}
+\index{IV\_SIZE@{IV\_SIZE}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{IV\_SIZE}{IV\_SIZE}}
+{\footnotesize\ttfamily \label{stealth__net_8h_ad7bb30dbf5882fdf05331918e8a0cc84} 
+\+\#define IV\+\_\+\+SIZE~16}
+
+Tamanho do IV para AES-\/256-\/\+CTR \Hypertarget{stealth__net_8h_aa7a7521abb3a3664218d8dc0e3759f0f}\index{stealth\_net.h@{stealth\_net.h}!MAX\_PAYLOAD@{MAX\_PAYLOAD}}
+\index{MAX\_PAYLOAD@{MAX\_PAYLOAD}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_PAYLOAD}{MAX\_PAYLOAD}}
+{\footnotesize\ttfamily \label{stealth__net_8h_aa7a7521abb3a3664218d8dc0e3759f0f} 
+\+\#define MAX\+\_\+\+PAYLOAD~198}
+
+Espaço máximo para texto limpo (plaintext) \Hypertarget{stealth__net_8h_a966cb2eed4436763c207af4b32b08f53}\index{stealth\_net.h@{stealth\_net.h}!NUM\_FRAMES@{NUM\_FRAMES}}
+\index{NUM\_FRAMES@{NUM\_FRAMES}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_FRAMES}{NUM\_FRAMES}}
+{\footnotesize\ttfamily \label{stealth__net_8h_a966cb2eed4436763c207af4b32b08f53} 
+\+\#define NUM\+\_\+\+FRAMES~2048}
+
+Número total de buffers alocados no UMEM 
+
+\label{doc-func-members}
+\Hypertarget{stealth__net_8h_doc-func-members}
+\doxysubsection{Documentação das funções}
+\Hypertarget{stealth__net_8h_ab898071398b359603a35c202e9c65f3b}\index{stealth\_net.h@{stealth\_net.h}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \label{stealth__net_8h_ab898071398b359603a35c202e9c65f3b} 
+struct \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(packed)}]{}{}\end{DoxyParamCaption})}
+
+\texorpdfstring{$<$}{<} Identificador do protocolo "{}\+STLH"{}
+
+\texorpdfstring{$<$}{<} Número de sequência (Big-\/\+Endian) para evitar replay attacks
+
+\texorpdfstring{$<$}{<} Comprimento real do payload cifrado
+
+\texorpdfstring{$<$}{<} Vetor de Inicialização gerado aleatoriamente por pacote
+
+\texorpdfstring{$<$}{<} Dados cifrados contendo a payload do comando/\+resposta
+
+\texorpdfstring{$<$}{<} Tag de autenticação HMAC-\/\+SHA256(iv \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} ciphertext)\Hypertarget{stealth__net_8h_ade686245a281d30b370ed9861f14f916}\index{stealth\_net.h@{stealth\_net.h}!cleanup\_xsk\_socket@{cleanup\_xsk\_socket}}
+\index{cleanup\_xsk\_socket@{cleanup\_xsk\_socket}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{cleanup\_xsk\_socket()}{cleanup\_xsk\_socket()}}
+{\footnotesize\ttfamily \label{stealth__net_8h_ade686245a281d30b370ed9861f14f916} 
+void cleanup\+\_\+xsk\+\_\+socket (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{ifname}{}\end{DoxyParamCaption})}
+
+
+
+Realiza o desanexamento do programa XDP e liberta todos os recursos do socket. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto do socket obtido em init\+\_\+xsk\+\_\+socket. \\
+\hline
+{\em ifname} & Nome da interface de rede associada. \\
+\hline
+\end{DoxyParams}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{stealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd}\index{stealth\_net.h@{stealth\_net.h}!init\_xsk\_socket@{init\_xsk\_socket}}
+\index{init\_xsk\_socket@{init\_xsk\_socket}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{init\_xsk\_socket()}{init\_xsk\_socket()}}
+{\footnotesize\ttfamily \label{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd} 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*} init\+\_\+xsk\+\_\+socket (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{ifname}{}\end{DoxyParamCaption})}
+
+
+
+Inicializa e configura o ambiente e\+BPF /\+ AF\+\_\+\+XDP na interface especificada. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em ifname} & Nome legível da interface de rede (ex:\+ "{}eth0"{}). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+Ponteiro para a estrutura \doxylink{structxsk__info}{xsk\+\_\+info} alocada, ou NULL em caso de falha. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9}\index{stealth\_net.h@{stealth\_net.h}!xsk\_receive\_packet@{xsk\_receive\_packet}}
+\index{xsk\_receive\_packet@{xsk\_receive\_packet}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{xsk\_receive\_packet()}{xsk\_receive\_packet()}}
+{\footnotesize\ttfamily \label{stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9} 
+int xsk\+\_\+receive\+\_\+packet (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{\doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{pkt}{}\end{DoxyParamCaption})}
+
+
+
+Verifica o anel de receção e extrai um frame stealth se disponível. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto operacional do socket. \\
+\hline
+{\em pkt} & Ponteiro de destino onde o conteúdo do frame será copiado. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+1 se um pacote foi recebido com sucesso, 0 se não existiam dados pendentes. 
+\end{DoxyReturn}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8}\index{stealth\_net.h@{stealth\_net.h}!xsk\_send\_packet@{xsk\_send\_packet}}
+\index{xsk\_send\_packet@{xsk\_send\_packet}!stealth\_net.h@{stealth\_net.h}}
+\doxysubsubsection{\texorpdfstring{xsk\_send\_packet()}{xsk\_send\_packet()}}
+{\footnotesize\ttfamily \label{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8} 
+int xsk\+\_\+send\+\_\+packet (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{\doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{pkt}{}\end{DoxyParamCaption})}
+
+
+
+Envia um pacote stealth formatado através do ring de TX da interface. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto operacional do socket. \\
+\hline
+{\em pkt} & Ponteiro para a estrutura populada contendo os dados e assinaturas. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+0 em caso de sucesso, -\/1 se o anel de transmissão estiver cheio. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph}
+\end{center}
+\end{figure}

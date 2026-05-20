@@ -1,0 +1,28 @@
+<map id="main" name="main">
+<area shape="rect" id="Node000001" title="Ponto de entrada do executável da aplicação." alt="" coords="5,183,55,209"/>
+<area shape="rect" id="Node000002" href="$stealth__shell_8c.html#a2c45bea8dfcf2ba9a9dede1bedefd293" title="Obtém o endereço MAC de hardware associado à interface local configurada." alt="" coords="119,5,224,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="32,181,53,116,73,77,101,42,108,38,106,43,105,46,77,79,57,118,37,183"/>
+<area shape="rect" id="Node000003" href="$stealth__net_8c.html#a0e9470401e8e266b02f94bd1240cc7cd" title="Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada." alt="" coords="115,56,228,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="35,181,60,138,79,114,101,93,111,88,107,92,104,97,83,117,65,141,40,183"/>
+<area shape="rect" id="Node000005" href="$stealth__shell_8c.html#ad1a077ebed5ed14af0d201d951308654" title="Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo." alt="" coords="135,107,208,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="46,180,101,143,122,135,119,139,104,148,50,184"/>
+<area shape="rect" id="Node000007" href="$stealth__shell_8c.html#ae26625f48bbdffcb76599e9c0c7a7caa" title="Utilitário auxiliar para despejo hexadecimal de dados na consola (Hexdump)." alt="" coords="134,157,208,184"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="53,189,121,178,118,182,56,194"/>
+<area shape="rect" id="Node000008" href="$stealth__crypto_8c.html#aafdeb6a3e4a76618c0769d361813a7dd" title="Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado." alt="" coords="116,208,226,235"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="54,198,103,207,99,210,56,203"/>
+<area shape="rect" id="Node000010" href="$stealth__crypto_8c.html#aa8a6a9a52918275e61b46824502f3eb1" title="Encripta o plaintext usando AES&#45;256&#45;CTR e calcula a respetiva tag HMAC&#45;SHA256." alt="" coords="116,259,226,285"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="48,207,104,244,116,251,111,253,101,249,48,212"/>
+<area shape="rect" id="Node000011" href="$stealth__net_8c.html#a364f8f716fd1aa529c476f7a477214d9" title="Verifica o anel de receção e extrai um frame stealth se disponível." alt="" coords="103,309,240,336"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="38,207,65,251,83,275,104,295,112,301,106,302,101,299,79,278,60,254,37,212"/>
+<area shape="rect" id="Node000012" href="$stealth__net_8c.html#ac2dfb903f0be71b96ca245dea391e9a8" title="Envia um pacote stealth formatado através do ring de TX da interface." alt="" coords="110,360,233,387"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="35,207,57,274,77,313,105,346,110,352,104,351,101,350,73,315,53,276,33,212"/>
+<area shape="rect" id="Node000004" href="$stealth__net_8c.html#a9d41c2500988d3a978d0c99875c27bf6" title="Callback costumizado para supressão de mensagens informativas da libbpf." alt="" coords="321,56,408,83"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="227,67,308,68,303,71,229,72"/>
+<area shape="rect" id="Node000006" href="$stealth__net_8c.html#ade686245a281d30b370ed9861f14f916" title="Realiza o desanexamento do programa XDP e liberta todos os recursos do socket." alt="" coords="294,107,435,133"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="208,117,281,119,277,121,209,123"/>
+<area shape="rect" id="Node000009" href="$stealth__crypto_8c.html#a897f0c90cd1523e34db3a90c3afa813a" title="Função interna para cálculo do MAC sobre o vetor de inicialização e a carga cifrada." alt="" coords="310,233,420,260"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="226,226,297,237,292,238,227,231"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="226,262,297,255,292,257,227,267"/>
+<area shape="rect" id="Node000013" href="$stealth__net_8c.html#ab2386909407909691fa7140e9020f7a7" title="Gera um endereço MAC pseudo&#45;aleatório através do /dev/urandom." alt="" coords="288,360,441,387"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="233,371,275,373,270,373,234,376"/>
+</map>

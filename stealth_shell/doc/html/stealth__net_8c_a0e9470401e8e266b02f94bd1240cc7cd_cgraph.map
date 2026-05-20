@@ -1,0 +1,5 @@
+<map id="init_xsk_socket" name="init_xsk_socket">
+<area shape="rect" id="Node000001" title="Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada." alt="" coords="5,5,118,32"/>
+<area shape="rect" id="Node000002" href="$stealth__net_8c.html#a9d41c2500988d3a978d0c99875c27bf6" title="Callback costumizado para supressão de mensagens informativas da libbpf." alt="" coords="166,5,253,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,16,153,18,147,19,118,21"/>
+</map>

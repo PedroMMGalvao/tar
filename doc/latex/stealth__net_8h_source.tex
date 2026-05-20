@@ -1,0 +1,65 @@
+\doxysection{stealth\+\_\+net.\+h}
+\hypertarget{stealth__net_8h_source}{}\label{stealth__net_8h_source}\index{stealth\_shell/stealth\_net.h@{stealth\_shell/stealth\_net.h}}
+\doxymbox{\hyperlink{stealth__net_8h}{Ir para a documentação deste ficheiro.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ STEALTH\_NET\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ STEALTH\_NET\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <bpf/libbpf.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <xdp/xsk.h>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ STEALTH\_ETHERTYPE\ \ 0x88B5}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ STEALTH\_MAGIC\ \ \ \ \ \ "{}STLH"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ IV\_SIZE\ \ \ \ \ \ 16\ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ HMAC\_SIZE\ \ \ \ 32\ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ MAX\_PAYLOAD\ \ 198\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{stealth__net_8h_ab898071398b359603a35c202e9c65f3b}{\_\_attribute\_\_}}((packed))\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \doxymbox{\hyperlink{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590}{magic}}[4];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ uint32\_t\ \doxymbox{\hyperlink{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5}{seq}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ uint16\_t\ payload\_len;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ uint8\_t\ \ iv[\doxymbox{\hyperlink{stealth__net_8h_ad7bb30dbf5882fdf05331918e8a0cc84}{IV\_SIZE}}];\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ uint8\_t\ \ payload[\doxymbox{\hyperlink{stealth__net_8h_aa7a7521abb3a3664218d8dc0e3759f0f}{MAX\_PAYLOAD}}];\ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ uint8\_t\ \ hmac[\doxymbox{\hyperlink{stealth__net_8h_a47668e54458d49255620473617a4920e}{HMAC\_SIZE}}];\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \}\ \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\_pkt\_t}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{\_Static\_assert}(\textcolor{keyword}{sizeof}(\doxymbox{\hyperlink{structstealth__pkt__t}{stealth\_pkt\_t}})\ ==\ 256,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}stealth\_pkt\_t\ must\ be\ exactly\ 256\ bytes"{}});}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ ETH\_HDR\_LEN\ \ 14}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ NUM\_FRAMES\ \ 2048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ FRAME\_SIZE\ \ XSK\_UMEM\_\_DEFAULT\_FRAME\_SIZE\ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structxsk__info}{xsk\_info}}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_ring\_cons\ \doxymbox{\hyperlink{structxsk__info_a30dec64611c55e74b62ef1335d944c2b}{rx}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_ring\_prod\ \doxymbox{\hyperlink{structxsk__info_a107f799c443d02419760f418d4112f71}{tx}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_ring\_prod\ \doxymbox{\hyperlink{structxsk__info_acbce54c422dacc56e6b0d529ad4f9f19}{fq}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_ring\_cons\ \doxymbox{\hyperlink{structxsk__info_ae27032bda4abf82d5a559c53e9253827}{cq}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_umem\ \ \ \ \ *\doxymbox{\hyperlink{structxsk__info_af89b1c65aa9310106cd2bea57e6685db}{umem}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\doxymbox{\hyperlink{structxsk__info_a46c9a5b9a998b8a6380ebf5ea273d024}{buffer}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{struct\ }xsk\_socket\ \ \ *\doxymbox{\hyperlink{structxsk__info_ab01a32ac0352ea98df923999d4ef8289}{xsk}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{struct\ }bpf\_object\ \ \ *\doxymbox{\hyperlink{structxsk__info_a19ee01c1d0a7d93fbc729f2cba69ecd5}{bpf\_obj}};\ \ \ \ \ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structxsk__info_a061261c5bc09a28b073aea7206c0c924}{ifindex}};\ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structxsk__info_a11dd53e27ac591f1c7a700e305e17108}{prog\_fd}};\ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structxsk__info_a0f154c112ec074f212a4432b8cc9fd38}{map\_fd}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ uint32\_t\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structxsk__info_a9b9d462e9b9eb3a9174e58359a854dde}{xdp\_flags}};\ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ uint64\_t\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structxsk__info_a9be68f6b2b6695ea5d3c4c152257ad7b}{tx\_frame\_idx}};\ }
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structxsk__info}{xsk\_info}}\ *\doxymbox{\hyperlink{stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd}{init\_xsk\_socket}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ifname);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{stealth__net_8h_ade686245a281d30b370ed9861f14f916}{cleanup\_xsk\_socket}}(\textcolor{keyword}{struct}\ \doxymbox{\hyperlink{structxsk__info}{xsk\_info}}\ *\doxymbox{\hyperlink{structxsk__info_ab01a32ac0352ea98df923999d4ef8289}{xsk}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ifname);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8}{xsk\_send\_packet}}(\textcolor{keyword}{struct}\ \doxymbox{\hyperlink{structxsk__info}{xsk\_info}}\ *\doxymbox{\hyperlink{structxsk__info_ab01a32ac0352ea98df923999d4ef8289}{xsk}},\ \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\_pkt\_t}}\ *pkt);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9}{xsk\_receive\_packet}}(\textcolor{keyword}{struct}\ \doxymbox{\hyperlink{structxsk__info}{xsk\_info}}\ *\doxymbox{\hyperlink{structxsk__info_ab01a32ac0352ea98df923999d4ef8289}{xsk}},\ \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\_pkt\_t}}\ *pkt);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ STEALTH\_NET\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

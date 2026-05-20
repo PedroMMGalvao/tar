@@ -25,32 +25,7 @@
 var NAVTREE =
 [
   [ "XDP Stealth Shell", "index.html", [
-    [ "stealth_shell_xdp", "md__r_e_a_d_m_e.html", [
-      [ "Índice", "md__r_e_a_d_m_e.html#autotoc_md2", null ],
-      [ "Visão geral", "md__r_e_a_d_m_e.html#autotoc_md4", null ],
-      [ "Árvore de ficheiros", "md__r_e_a_d_m_e.html#autotoc_md6", null ],
-      [ "Funcionalidade de cada ficheiro", "md__r_e_a_d_m_e.html#autotoc_md8", [
-        [ "<span class=\"tt\">stealth_shell.c</span>", "md__r_e_a_d_m_e.html#autotoc_md9", null ],
-        [ "<span class=\"tt\">stealth_net.c</span> + <span class=\"tt\">stealth_net.h</span>", "md__r_e_a_d_m_e.html#autotoc_md10", null ],
-        [ "<span class=\"tt\">stealth_crypto.c</span> + <span class=\"tt\">stealth_crypto.h</span>", "md__r_e_a_d_m_e.html#autotoc_md11", null ],
-        [ "<span class=\"tt\">xdp/xdp_kern.c</span>", "md__r_e_a_d_m_e.html#autotoc_md12", null ],
-        [ "<span class=\"tt\">stealth_setup.sh</span>", "md__r_e_a_d_m_e.html#autotoc_md13", null ],
-        [ "<span class=\"tt\">Makefile</span>", "md__r_e_a_d_m_e.html#autotoc_md14", null ]
-      ] ],
-      [ "Arquitetura e implementação", "md__r_e_a_d_m_e.html#autotoc_md16", [
-        [ "Camada 1 — Frame Crafting", "md__r_e_a_d_m_e.html#autotoc_md17", null ],
-        [ "Camada 2 — XDP Interception", "md__r_e_a_d_m_e.html#autotoc_md18", null ],
-        [ "Camada 3 — AF_XDP Userspace Consumer", "md__r_e_a_d_m_e.html#autotoc_md19", null ],
-        [ "Camada Criptográfica", "md__r_e_a_d_m_e.html#autotoc_md20", null ],
-        [ "Propriedades stealth", "md__r_e_a_d_m_e.html#autotoc_md21", null ]
-      ] ],
-      [ "Dependências", "md__r_e_a_d_m_e.html#autotoc_md23", null ],
-      [ "Compilar", "md__r_e_a_d_m_e.html#autotoc_md25", null ],
-      [ "Configurar o ambiente (setup)", "md__r_e_a_d_m_e.html#autotoc_md27", null ],
-      [ "Correr", "md__r_e_a_d_m_e.html#autotoc_md29", null ],
-      [ "Verificar stats em runtime", "md__r_e_a_d_m_e.html#autotoc_md31", null ],
-      [ "Limpar", "md__r_e_a_d_m_e.html#autotoc_md33", null ]
-    ] ],
+    [ "stealth_shell_xdp", "index.html", "index" ],
     [ "Classes", "annotated.html", [
       [ "Lista de componentes", "annotated.html", "annotated_dup" ],
       [ "Índice dos componentes", "classes.html", null ],
@@ -76,6 +51,6 @@ var NAVTREEINDEX =
 "annotated.html"
 ];
 
-const SYNCONMSG = 'clique para desativar a sincronização do painel';
-const SYNCOFFMSG = 'clique para ativar a sincronização do painel';
-const LISTOFALLMEMBERS = 'Mostrar lista completa dos membros';
+var SYNCONMSG = 'clique para desativar a sincronização do painel';
+var SYNCOFFMSG = 'clique para ativar a sincronização do painel';
+var LISTOFALLMEMBERS = 'Mostrar lista completa dos membros';

@@ -1,0 +1,35 @@
+<map id="stealth_net.c" name="stealth_net.c">
+<area shape="rect" id="Node000001" title="Implementações de baixo nível para orquestração de rings AF_XDP e carregamento eBPF." alt="" coords="558,5,655,32"/>
+<area shape="rect" id="Node000002" href="$stealth__net_8h.html" title="Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell." alt="" coords="98,80,195,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="558,30,214,83,211,83,209,78,213,77,558,24"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,155,91,181"/>
+<area shape="poly" id="edge15_Node000001_Node000004" title=" " alt="" coords="556,20,447,24,308,32,239,40,176,50,125,64,88,82,76,94,67,109,55,141,50,138,62,106,72,91,85,78,123,59,175,45,238,34,307,27,447,19,561,19"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="204,155,282,181"/>
+<area shape="poly" id="edge16_Node000001_Node000005" title=" " alt="" coords="555,22,481,29,391,39,310,56,280,68,259,82,250,94,245,109,242,141,238,137,240,107,246,92,255,78,277,63,309,51,390,34,480,24,560,21"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="270,80,330,107"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="556,31,346,82,345,77,561,29"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="354,80,417,107"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="571,32,433,79,431,74,566,33"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="441,80,506,107"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="586,32,511,75,509,70,581,33"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="529,80,596,107"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="601,31,580,69,577,65,597,34"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="620,80,681,107"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="615,30,638,68,633,66,613,35"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="705,80,767,107"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="630,30,703,72,697,72,629,35"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="791,80,897,107"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="648,30,791,75,785,75,648,35"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="922,80,1004,107"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="656,27,909,79,904,80,655,32"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1027,80,1125,107"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="655,24,811,45,1015,79,1009,80,810,50,655,29"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="1149,80,1222,107"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="655,21,860,39,995,55,1137,80,1131,80,994,61,860,45,655,26"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1246,80,1327,107"/>
+<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="655,20,899,38,1062,54,1233,80,1228,80,1061,60,898,43,655,25"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="114,155,179,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="148,105,149,140,144,138,145,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="132,107,79,148,76,143,127,108"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="164,105,217,145,211,145,163,110"/>
+</map>

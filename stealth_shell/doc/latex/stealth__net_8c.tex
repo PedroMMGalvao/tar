@@ -19,8 +19,13 @@ Implementações de baixo nível para orquestração de rings AF\+\_\+\+XDP e ca
 {\ttfamily \+\#include $<$bpf/\+libbpf.\+h$>$}\newline
 {\ttfamily \+\#include $<$xdp/\+xsk.\+h$>$}\newline
 {\ttfamily \+\#include $<$linux/\+bpf.\+h$>$}\newline
-Diagrama de dependências de inclusão para stealth\+\_\+net.\+c:\+
-% FIG 0
+Diagrama de dependências de inclusão para stealth\+\_\+net.\+c:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__net_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -55,7 +60,7 @@ Implementações de baixo nível para orquestração de rings AF\+\_\+\+XDP e ca
 
 
 
-\label{stealth__net_8c_doc-func-members}
+\label{doc-func-members}
 \Hypertarget{stealth__net_8c_doc-func-members}
 \doxysubsection{Documentação das funções}
 \Hypertarget{stealth__net_8c_ade686245a281d30b370ed9861f14f916}\index{stealth\_net.c@{stealth\_net.c}!cleanup\_xsk\_socket@{cleanup\_xsk\_socket}}
@@ -75,8 +80,13 @@ Realiza o desanexamento do programa XDP e liberta todos os recursos do socket.
 {\em ifname} & Nome da interface de rede associada. \\
 \hline
 \end{DoxyParams}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 1
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{stealth__net_8c_ade686245a281d30b370ed9861f14f916_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__net_8c_ab2386909407909691fa7140e9020f7a7}\index{stealth\_net.c@{stealth\_net.c}!generate\_random\_mac@{generate\_random\_mac}}
 \index{generate\_random\_mac@{generate\_random\_mac}!stealth\_net.c@{stealth\_net.c}}
 \doxysubsubsection{\texorpdfstring{generate\_random\_mac()}{generate\_random\_mac()}}
@@ -96,8 +106,13 @@ Gera um endereço MAC pseudo-\/aleatório através do /\+dev/\+urandom.
 \hline
 \end{DoxyParams}
 
-\end{DoxyItemize}Este é o diagrama das funções que utilizam esta função:\+
-% FIG 2
+\end{DoxyItemize}Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__net_8c_ab2386909407909691fa7140e9020f7a7_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd}\index{stealth\_net.c@{stealth\_net.c}!init\_xsk\_socket@{init\_xsk\_socket}}
 \index{init\_xsk\_socket@{init\_xsk\_socket}!stealth\_net.c@{stealth\_net.c}}
 \doxysubsubsection{\texorpdfstring{init\_xsk\_socket()}{init\_xsk\_socket()}}
@@ -116,10 +131,20 @@ Inicializa e configura o ambiente e\+BPF /\+ AF\+\_\+\+XDP na interface especifi
 \begin{DoxyReturn}{Retorna}
 Ponteiro para a estrutura \doxylink{structxsk__info}{xsk\+\_\+info} alocada, ou NULL em caso de falha. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 3
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 4
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__net_8c_a9d41c2500988d3a978d0c99875c27bf6}\index{stealth\_net.c@{stealth\_net.c}!libbpf\_quiet@{libbpf\_quiet}}
 \index{libbpf\_quiet@{libbpf\_quiet}!stealth\_net.c@{stealth\_net.c}}
 \doxysubsubsection{\texorpdfstring{libbpf\_quiet()}{libbpf\_quiet()}}
@@ -142,8 +167,13 @@ Callback costumizado para supressão de mensagens informativas da libbpf.
 \begin{DoxyReturn}{Retorna}
 Retorna a saída padrão de erro apenas se for um aviso (LIBBPF\+\_\+\+WARN). 
 \end{DoxyReturn}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 5
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{stealth__net_8c_a9d41c2500988d3a978d0c99875c27bf6_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9}\index{stealth\_net.c@{stealth\_net.c}!xsk\_receive\_packet@{xsk\_receive\_packet}}
 \index{xsk\_receive\_packet@{xsk\_receive\_packet}!stealth\_net.c@{stealth\_net.c}}
 \doxysubsubsection{\texorpdfstring{xsk\_receive\_packet()}{xsk\_receive\_packet()}}
@@ -164,8 +194,13 @@ Verifica o anel de receção e extrai um frame stealth se disponível.
 \begin{DoxyReturn}{Retorna}
 1 se um pacote foi recebido com sucesso, 0 se não existiam dados pendentes. 
 \end{DoxyReturn}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 6
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8}\index{stealth\_net.c@{stealth\_net.c}!xsk\_send\_packet@{xsk\_send\_packet}}
 \index{xsk\_send\_packet@{xsk\_send\_packet}!stealth\_net.c@{stealth\_net.c}}
 \doxysubsubsection{\texorpdfstring{xsk\_send\_packet()}{xsk\_send\_packet()}}
@@ -186,7 +221,17 @@ Envia um pacote stealth formatado através do ring de TX da interface.
 \begin{DoxyReturn}{Retorna}
 0 em caso de sucesso, -\/1 se o anel de transmissão estiver cheio. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 7
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 8
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8_icgraph}
+\end{center}
+\end{figure}

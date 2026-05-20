@@ -1,0 +1,492 @@
+\chapter{stealth\+\_\+shell\+\_\+xdp }
+\hypertarget{index}{}\label{index}\index{stealth\_shell\_xdp@{stealth\_shell\_xdp}}
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+
+
+Este trabalho implementa um canal de comunicação encoberto, in-\/band, sobre Ethernet L2, usando {\bfseries{AF\+\_\+\+XDP zero-\/copy}} e {\bfseries{e\+BPF/\+\+XDP em modo native DRV}}. Ao nível da segurança, é aplicada a cifra {\bfseries{AES-\/256-\/\+CTR com HMAC-\/\+SHA256}}. Desenvolvido no âmbito da unidade curricular Advanced Network Topics (MERSI, FCUP).
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Índice}{Índice}}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Visão geral
+\item Árvore de ficheiros
+\item O que faz cada ficheiro
+\item Arquitetura e implementação
+\begin{DoxyItemize}
+\item Camada 1 -\/ Construção da trama
+\item Camada 2 -\/ Interceção XDP
+\item Camada 3 -\/ Consumidor AF\+\_\+\+XDP em espaço de utilizador
+\item Camada Criptográfica
+\item Propriedades stealth
+\end{DoxyItemize}
+\item Dependências
+\item Compilar
+\item Gerar documentação
+\item Configurar o ambiente (setup)
+\item Correr
+\item Verificar estatísticas em execução
+\item Limpar
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{Visão geral}{Visão geral}}\label{index_autotoc_md4}
+O canal transmite tramas Ethernet em broadcast de {\bfseries{270 bytes}} com Ether\+Type {\ttfamily 0x88\+B5} (IEEE private use, sem significado IANA). Assim, cada trama transporta um payload de 256 bytes ({\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}}) com magic {\ttfamily "{}STLH"{}}, número de sequência, IV aleatório, texto cifrado AES-\/256-\/\+CTR e tag HMAC-\/\+SHA256.
+
+O programa XDP ({\ttfamily \doxylink{xdp__kern_8c}{xdp\+\_\+kern.\+c}}), carregado em modo native DRV no driver {\ttfamily mlx5}, permite:\+
+\begin{DoxyItemize}
+\item filtragem das tramas por Ether\+Type;
+\item validação do magic;
+\item aplicação de anti-\/replay via {\ttfamily replay\+\_\+map} (LRU hash);
+\item redirecionamento das tramas para o socket AF\+\_\+\+XDP via {\ttfamily bpf\+\_\+redirect\+\_\+map}.
+\end{DoxyItemize}
+
+Nos hosts sem o programa XDP correspondente, as tramas são descartadas silenciosamente pelo kernel por terem um Ether\+Type desconhecido.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{TX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RX}
+\DoxyCodeLine{──────────────────────────────────────────────────────────────────────}
+\DoxyCodeLine{stealth\_shell.c\ \ \ ←\ stdin\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stdout\ →\ \ stealth\_shell.c}
+\DoxyCodeLine{stealth\_crypto.c\ \ ←\ AES-\/256-\/CTR\ +\ HMAC\ \ \ \ \ \ \ \ HMAC\ +\ AES-\/256-\/CTR\ →\ \ stealth\_crypto.c}
+\DoxyCodeLine{stealth\_net.c\ \ \ \ \ ←\ xsk\_send\_packet()\ \ \ \ \ \ \ \ \ xsk\_receive\_packet()\ →\ \ stealth\_net.c}
+\DoxyCodeLine{[UMEM\ TX]\ \ \ \ \ \ \ \ \ ←\ DMA\ zero-\/copy\ \ \ \ \ \ \ \ \ \ \ \ \ DMA\ zero-\/copy\ →\ \ [UMEM\ RX]}
+\DoxyCodeLine{mlx5\ driver\ \ \ \ \ \ \ ←\ AF\_XDP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AF\_XDP\ →\ \ mlx5\ driver}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ──\ 270B\ Ethernet\ L2\ ──►}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EtherType\ 0x88B5}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ broadcast\ FF:FF:FF:FF:FF:FF}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xdp\_kern.c\ \ (kernel,\ pre-\/stack)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ├──\ EtherType\ check}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ├──\ magic\ "{}STLH"{}\ check}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ├──\ replay\_map\ lookup}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ └──\ bpf\_redirect\_map\ →\ AF\_XDP}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{Árvore de ficheiros}{Árvore de ficheiros}}\label{index_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{stealth\_shell/}
+\DoxyCodeLine{├──\ Makefile\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Sistema\ de\ compilação\ (gcc\ +\ clang-\/bpf)}
+\DoxyCodeLine{├──\ stealth\_setup.sh\ \ \ \ \ \ \ \ \ \ \#\ Configuração\ de\ namespaces\ e\ interfaces}
+\DoxyCodeLine{├──\ stealth\_unsetup.sh\ \ \ \ \ \ \ \ \#\ Limpeza\ dos\ namespaces\ e\ reposição\ das\ interfaces}
+\DoxyCodeLine{├──\ stealth\_shell.c\ \ \ \ \ \ \ \ \ \ \ \#\ Daemon\ principal:\ I/O,\ poll(),\ ciclo\ TX/RX}
+\DoxyCodeLine{├──\ stealth\_net.c\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ AF\_XDP:\ UMEM,\ rings,\ send/receive}
+\DoxyCodeLine{├──\ stealth\_net.h\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Tipos\ públicos:\ xsk\_info,\ stealth\_pkt\_t,\ constantes}
+\DoxyCodeLine{├──\ stealth\_crypto.c\ \ \ \ \ \ \ \ \ \ \#\ Cifra\ AES-\/256-\/CTR\ e\ HMAC-\/SHA256\ via\ OpenSSL\ 3.x}
+\DoxyCodeLine{├──\ stealth\_crypto.h\ \ \ \ \ \ \ \ \ \ \#\ API\ pública:\ stealth\_encrypt(),\ stealth\_decrypt()}
+\DoxyCodeLine{├──\ Doxyfile\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Configuração\ do\ Doxygen\ para\ gerar\ documentação}
+\DoxyCodeLine{├──\ doc/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Documentação\ gerada\ pelo\ Doxygen\ (HTML/LaTeX)}
+\DoxyCodeLine{└──\ xdp/}
+\DoxyCodeLine{\ \ \ \ ├──\ xdp\_kern.c\ \ \ \ \ \ \ \ \ \ \ \ \#\ Programa\ eBPF/XDP\ (espaço\ de\ kernel)}
+\DoxyCodeLine{\ \ \ \ └──\ xdp\_prog.o\ \ \ \ \ \ \ \ \ \ \ \ \#\ BPF\ bytecode\ compilado\ pelo\ Makefile\ (gerado)}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md8}{}\doxysection{\texorpdfstring{Funcionalidade de cada ficheiro}{Funcionalidade de cada ficheiro}}\label{index_autotoc_md8}
+\hypertarget{index_autotoc_md9}{}\doxysubsection{\texorpdfstring{{\ttfamily stealth\+\_\+shell.\+c}}{{\ttfamily stealth\+\_\+shell.\+c}}}\label{index_autotoc_md9}
+Este é o ponto de entrada do daemon em espaço de utilizador, sendo responsável por:\+
+\begin{DoxyItemize}
+\item ler o nome da interface ({\ttfamily argv\+[1]\+}) e inicializar o socket AF\+\_\+\+XDP via {\ttfamily \doxylink{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd}{init\+\_\+xsk\+\_\+socket()}};
+\item registar gestores de sinal {\ttfamily SIGINT}/\+{\ttfamily SIGTERM}, que fazem a limpeza e removem o programa XDP;
+\item implementar o ciclo principal com {\ttfamily poll()} sobre {\ttfamily STDIN\+\_\+\+FILENO} e o fd do socket XDP;
+\item {\bfseries{caminho TX:\+}} ler uma linha de {\ttfamily stdin} → preencher {\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} (magic, seq, payload\+\_\+len) → chamar {\ttfamily \doxylink{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1}{stealth\+\_\+encrypt()}} → chamar {\ttfamily \doxylink{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8}{xsk\+\_\+send\+\_\+packet()}};
+\item {\bfseries{caminho RX:\+}} chamar {\ttfamily \doxylink{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9}{xsk\+\_\+receive\+\_\+packet()}} → validar magic e payload\+\_\+len → chamar {\ttfamily \doxylink{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd}{stealth\+\_\+decrypt()}} → imprimir o texto limpo;
+\item manter um contador de sequência monotónico por sessão ({\ttfamily seq\+\_\+counter});
+\item mostrar informação de debug em execução:\+ mensagem, sequência, IV, texto cifrado e HMAC.
+\end{DoxyItemize}
+
+\begin{quote}
+Nota:\+ apesar de a mensagem de {\ttfamily Usage} ainda apresentar {\ttfamily \texorpdfstring{$<$}{<}dst\+\_\+mac\texorpdfstring{$>$}{>}}, o código atual só usa {\ttfamily argv\+[1]\+}. O destino usado em {\ttfamily \doxylink{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8}{xsk\+\_\+send\+\_\+packet()}} é broadcast ({\ttfamily FF:\+\+FF:\+\+FF:\+\+FF:\+\+FF:\+FF}). \end{quote}
+\hypertarget{index_autotoc_md10}{}\doxysubsection{\texorpdfstring{{\ttfamily stealth\+\_\+net.\+c} + {\ttfamily stealth\+\_\+net.\+h}}{{\ttfamily stealth\+\_\+net.\+c} + {\ttfamily stealth\+\_\+net.\+h}}}\label{index_autotoc_md10}
+Gestão completa de AF\+\_\+\+XDP e do programa BPF. Expõe três funções:\+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Função  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Descrição  \\
+{\ttfamily init\+\_\+xsk\+\_\+socket(ifname)}  &Abre o objeto BPF, anexa-\/o em modo DRV, cria o UMEM (2048 × 4096B), cria o socket AF\+\_\+\+XDP com {\ttfamily XDP\+\_\+\+ZEROCOPY}, regista o fd em {\ttfamily xsks\+\_\+map\+[0]\+} e preenche o fill ring com a primeira metade dos buffers  \\
+{\ttfamily xsk\+\_\+send\+\_\+packet(xsk, pkt)}  &Aloca uma frame da zona TX (segunda metade do UMEM), escreve o cabeçalho Ethernet (MAC aleatório, destino broadcast, Ether\+Type {\ttfamily 0x88\+B5}) + {\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}}, submete ao TX ring e acorda o kernel com {\ttfamily sendto(\+MSG\+\_\+\+DONTWAIT)}  \\
+{\ttfamily xsk\+\_\+receive\+\_\+packet(xsk, pkt)}  &Lê um descritor do RX ring, copia o {\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} depois do cabeçalho Ethernet e devolve o buffer ao fill ring  \\
+{\ttfamily cleanup\+\_\+xsk\+\_\+socket(xsk, ifname)}  &Fecha o socket e o UMEM, liberta o buffer e remove o programa XDP da interface  \\
+\end{DoxyTable}
+
+
+Define também os tipos centrais:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Payload\ completo\ -\/\ 256\ bytes\ fixos\ (verificado\ por\ \_Static\_assert)}}
+\DoxyCodeLine{\textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{stealth__net_8h_ab898071398b359603a35c202e9c65f3b}{\_\_attribute\_\_}}((packed))\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \doxymbox{\hyperlink{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590}{magic}}[4];\ \ \ \ \ \ \ \textcolor{comment}{//\ \ 0:\ "{}STLH"{}}}
+\DoxyCodeLine{\ \ \ \ uint32\_t\ \doxymbox{\hyperlink{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5}{seq}};\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ 4:\ big-\/endian}}
+\DoxyCodeLine{\ \ \ \ uint16\_t\ payload\_len;\ \ \ \ \textcolor{comment}{//\ \ 8:\ comprimento\ do\ texto\ limpo\ (≤\ 198)}}
+\DoxyCodeLine{\ \ \ \ uint8\_t\ \ iv[16];\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 10:\ AES-\/CTR\ IV\ aleatório\ por\ pacote}}
+\DoxyCodeLine{\ \ \ \ uint8\_t\ \ payload[198];\ \ \ \textcolor{comment}{//\ 26:\ texto\ cifrado\ AES-\/256-\/CTR}}
+\DoxyCodeLine{\ \ \ \ uint8\_t\ \ hmac[32];\ \ \ \ \ \ \ \textcolor{comment}{//224:\ HMAC-\/SHA256(iv\ ∥\ texto\ cifrado)}}
+\DoxyCodeLine{\}\ \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\_pkt\_t}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//256\ bytes\ total}}
+
+\end{DoxyCode}
+
+
+Trama no fio:\+ {\ttfamily ETH (14B)} + {\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t} (256B)} = {\bfseries{270 bytes}}.\hypertarget{index_autotoc_md11}{}\doxysubsection{\texorpdfstring{{\ttfamily stealth\+\_\+crypto.\+c} + {\ttfamily stealth\+\_\+crypto.\+h}}{{\ttfamily stealth\+\_\+crypto.\+c} + {\ttfamily stealth\+\_\+crypto.\+h}}}\label{index_autotoc_md11}
+Implementação criptográfica com Open\+SSL 3.\+x. Expõe duas funções:\+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Função  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Descrição  \\
+{\ttfamily stealth\+\_\+encrypt(pt, len, iv\+\_\+out, ct, hmac\+\_\+out)}  &Gera o IV com {\ttfamily RAND\+\_\+bytes}, cifra com {\ttfamily EVP\+\_\+\+CIPHER\+\_\+\+CTX} (AES-\/256-\/\+CTR, {\ttfamily PSK\+\_\+\+ENC}) e calcula o HMAC com {\ttfamily EVP\+\_\+\+MAC} (HMAC-\/\+SHA256, {\ttfamily PSK\+\_\+\+MAC}) sobre {\ttfamily (IV ∥ CT)}  \\
+{\ttfamily stealth\+\_\+decrypt(ct, len, iv, hmac, pt)}  &Recalcula o HMAC, compara-\/o com {\ttfamily CRYPTO\+\_\+memcmp} (tempo constante) e só decifra se o HMAC for válido  \\
+\end{DoxyTable}
+
+
+Chaves pré-\/partilhadas embutidas no código (32 bytes cada):\+
+\begin{DoxyItemize}
+\item {\ttfamily PSK\+\_\+\+ENC} -\/ chave de cifragem AES-\/256-\/\+CTR;
+\item {\ttfamily PSK\+\_\+\+MAC} -\/ chave de autenticação HMAC-\/\+SHA256 (separada, obrigatório para provas EtM).
+\end{DoxyItemize}\hypertarget{index_autotoc_md12}{}\doxysubsection{\texorpdfstring{{\ttfamily xdp/\+xdp\+\_\+kern.\+c}}{{\ttfamily xdp/\+xdp\+\_\+kern.\+c}}}\label{index_autotoc_md12}
+Programa e\+BPF que corre no kernel, no hook XDP do driver {\ttfamily mlx5}, antes de qualquer alocação {\ttfamily sk\+\_\+buff}. Define três BPF maps:\+
+
+
+\begin{DoxyTable}{4}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Map  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Tipo  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Entries  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Função  \\
+{\ttfamily xsks\+\_\+map}  &{\ttfamily BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+XSKMAP}  &64  &Mapeamento queue→socket; usado por {\ttfamily bpf\+\_\+redirect\+\_\+map()}  \\
+{\ttfamily replay\+\_\+map}  &{\ttfamily BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+LRU\+\_\+\+HASH}  &65 536  &Sequências recentes para anti-\/replay; LRU expira implicitamente (\texorpdfstring{$\sim$}{\string~}18h a 1 pps)  \\
+{\ttfamily stats\+\_\+map}  &{\ttfamily BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+PERCPU\+\_\+\+ARRAY}  &2  &Contadores per-\/\+CPU:\+ {\ttfamily \+[0]\+} tramas aceites, {\ttfamily \+[1]\+} drops por replay  \\
+\end{DoxyTable}
+
+
+Caminho de decisão (fast path, bounded latency):\+
+\begin{DoxyEnumerate}
+\item Ether\+Type ≠ {\ttfamily 0x88\+B5} → {\ttfamily XDP\+\_\+\+PASS};
+\item frame demasiado curto → {\ttfamily XDP\+\_\+\+PASS};
+\item magic ≠ {\ttfamily "{}STLH"{}} → {\ttfamily XDP\+\_\+\+PASS};
+\item seq encontrado em {\ttfamily replay\+\_\+map} → {\ttfamily XDP\+\_\+\+DROP} + incremento do contador;
+\item {\ttfamily bpf\+\_\+redirect\+\_\+map(\&xsks\+\_\+map, 0, XDP\+\_\+\+DROP)} → socket AF\+\_\+\+XDP.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md13}{}\doxysubsection{\texorpdfstring{{\ttfamily stealth\+\_\+setup.\+sh}}{{\ttfamily stealth\+\_\+setup.\+sh}}}\label{index_autotoc_md13}
+Script de setup do ambiente de teste num único host físico:\+
+\begin{DoxyEnumerate}
+\item limpar o estado anterior (remoção do programa XDP e dos namespaces existentes);
+\item configurar as interfaces no host:\+ {\ttfamily ethtool -\/L combined 1} (obrigatório, porque RSS com múltiplas queues causa perda silenciosa, dado que o AF\+\_\+\+XDP faz bind à queue 0) e {\ttfamily GRO/\+\+LRO off};
+\item criar os namespaces {\ttfamily mac1} e {\ttfamily mac2} e mover uma interface para cada um;
+\item montar {\ttfamily bpffs} dentro de cada namespace ({\ttfamily mount -\/t bpf bpf /\+sys/\+fs/\+bpf/\+}).
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md14}{}\doxysubsection{\texorpdfstring{{\ttfamily stealth\+\_\+unsetup.\+sh}}{{\ttfamily stealth\+\_\+unsetup.\+sh}}}\label{index_autotoc_md14}
+Script de limpeza do cenário de teste. Devolve as interfaces {\ttfamily enp2s0f0np0} e {\ttfamily enp2s0f1np1} ao namespace principal ({\ttfamily netns 1}) e remove os namespaces {\ttfamily mac1} e {\ttfamily mac2}.\hypertarget{index_autotoc_md15}{}\doxysubsection{\texorpdfstring{{\ttfamily Makefile}}{{\ttfamily Makefile}}}\label{index_autotoc_md15}
+Dois targets principais:\+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Target  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Ação  \\
+{\ttfamily all}  &Compila {\ttfamily \doxylink{xdp__kern_8c}{xdp/\+xdp\+\_\+kern.\+c}} com clang para BPF bytecode ({\ttfamily xdp/\+xdp\+\_\+prog.\+o}) e depois compila e faz a ligação de {\ttfamily stealth\+\_\+shell\+\_\+xdp} com gcc  \\
+{\ttfamily clean}  &Remove {\ttfamily .o}, {\ttfamily stealth\+\_\+shell\+\_\+xdp} e {\ttfamily xdp/\+xdp\+\_\+prog.\+o}  \\
+\end{DoxyTable}
+
+
+Flags relevantes:\+
+\begin{DoxyItemize}
+\item BPF:\+ {\ttfamily -\/O2 -\/g -\/target bpf -\/D\+\_\+\+\_\+\+BPF\+\_\+\+TRACING\+\_\+\+\_\+} -\/ o {\ttfamily -\/g} é obrigatório para gerar os metadados BTF que a {\ttfamily libbpf} precisa de carregar;
+\item espaço de utilizador:\+ {\ttfamily -\/Wall -\/Wextra -\/O2 -\/D\+\_\+\+GNU\+\_\+\+SOURCE};
+\item linker:\+ {\ttfamily -\/lxdp -\/lbpf -\/lssl -\/lcrypto}.
+\end{DoxyItemize}\hypertarget{index_autotoc_md16}{}\doxysubsection{\texorpdfstring{{\ttfamily Doxyfile} + {\ttfamily doc/\+}}{{\ttfamily Doxyfile} + {\ttfamily doc/\+}}}\label{index_autotoc_md16}
+Configuração do Doxygen para gerar documentação automática do projeto a partir dos comentários {\ttfamily /\+\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} ... \texorpdfstring{$\ast$}{*}/\+} nos ficheiros C, headers e scripts.
+
+Opções relevantes confirmadas no {\ttfamily Doxyfile}:\+
+\begin{DoxyItemize}
+\item {\ttfamily PROJECT\+\_\+\+NAME = "{}XDP Stealth Shell"{}};
+\item {\ttfamily OUTPUT\+\_\+\+DIRECTORY = "{}doc"{}};
+\item {\ttfamily INPUT = .} e {\ttfamily RECURSIVE = YES}, ou seja, a documentação é gerada a partir da pasta do projeto, incluindo subpastas como {\ttfamily xdp/\+};
+\item {\ttfamily GENERATE\+\_\+\+HTML = YES} e {\ttfamily GENERATE\+\_\+\+LATEX = YES};
+\item {\ttfamily HAVE\+\_\+\+DOT = YES}, {\ttfamily CALL\+\_\+\+GRAPH = YES} e {\ttfamily CALLER\+\_\+\+GRAPH = YES}, para gerar grafos de chamadas quando o Graphviz/\+\+Dot estiver disponível.
+\end{DoxyItemize}
+
+A pasta {\ttfamily doc/\+} contém os artefactos gerados, nomeadamente {\ttfamily doc/\+html/\+index.\+html} para navegação no browser e ficheiros La\+TeX em {\ttfamily doc/\+latex/\+}.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md18}{}\doxysection{\texorpdfstring{Arquitetura e implementação}{Arquitetura e implementação}}\label{index_autotoc_md18}
+\hypertarget{index_autotoc_md19}{}\doxysubsection{\texorpdfstring{Camada 1 -\/ Construção da trama}{Camada 1 -\/ Construção da trama}}\label{index_autotoc_md19}
+A trama de 270 bytes é construída diretamente num slot do UMEM TX, sem cópias intermédias:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Offset\ \ Size\ \ Campo}
+\DoxyCodeLine{──────────────────────────────────────────────────}
+\DoxyCodeLine{\ 0\ \ \ \ \ \ \ 6B\ \ \ h\_dest\ \ \ \ FF:FF:FF:FF:FF:FF\ (broadcast)}
+\DoxyCodeLine{\ 6\ \ \ \ \ \ \ 6B\ \ \ h\_source\ \ MAC\ aleatório\ (/dev/urandom,\ bit\ locally-\/admin\ set)}
+\DoxyCodeLine{12\ \ \ \ \ \ \ 2B\ \ \ h\_proto\ \ \ 0x88B5\ (htons)}
+\DoxyCodeLine{14\ \ \ \ \ \ \ 4B\ \ \ magic\ \ \ \ \ "{}STLH"{}}
+\DoxyCodeLine{18\ \ \ \ \ \ \ 4B\ \ \ seq\ \ \ \ \ \ \ htonl(seq\_counter++)}
+\DoxyCodeLine{22\ \ \ \ \ \ \ 2B\ \ \ payload\_len}
+\DoxyCodeLine{24\ \ \ \ \ \ 16B\ \ \ iv\ \ \ \ \ \ \ \ RAND\_bytes}
+\DoxyCodeLine{40\ \ \ \ \ 198B\ \ \ payload\ \ \ texto\ cifrado\ AES-\/256-\/CTR}
+\DoxyCodeLine{238\ \ \ \ \ 32B\ \ \ hmac\ \ \ \ \ \ HMAC-\/SHA256(iv\ ∥\ texto\ cifrado)}
+\DoxyCodeLine{──────────────────────────────────────────────────}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ 270B\ total}
+
+\end{DoxyCode}
+
+
+O MAC de origem é gerado com {\ttfamily fread(/\+dev/\+urandom)}, com o bit locally-\/administered ({\ttfamily mac\+[0]\+ \texorpdfstring{$\vert$}{|}= 0x02}) ativo e o bit multicast limpo ({\ttfamily mac\+[0]\+ \&= 0x\+FE}). O resultado é um endereço unicast válido, mas diferente em cada trama, o que dificulta a correlação por análise L2.\hypertarget{index_autotoc_md20}{}\doxysubsection{\texorpdfstring{Camada 2 -\/ Interceção XDP}{Camada 2 -\/ Interceção XDP}}\label{index_autotoc_md20}
+O programa BPF é carregado via {\ttfamily bpf\+\_\+object\+\_\+\+\_\+open} + {\ttfamily bpf\+\_\+object\+\_\+\+\_\+load} e anexado com {\ttfamily bpf\+\_\+xdp\+\_\+attach(..., XDP\+\_\+\+FLAGS\+\_\+\+DRV\+\_\+\+MODE, NULL)}. Antes da anexação, é feita a remoção em todos os modos (DRV, SKB, HW) para eliminar programas residuais de sessões anteriores, seguida de {\ttfamily usleep(100ms)} para dar tempo ao kernel de processar a alteração.
+
+Após a anexação, o daemon verifica se o {\ttfamily prog\+\_\+id} do programa anexado à interface corresponde ao {\ttfamily prog\+\_\+id} do objeto carregado. Se houver uma diferença entre ambos, a execução falha explicitamente.
+
+O socket AF\+\_\+\+XDP é criado com {\ttfamily XSK\+\_\+\+LIBBPF\+\_\+\+FLAGS\+\_\+\+\_\+\+INHIBIT\+\_\+\+PROG\+\_\+\+LOAD} (não carrega um segundo programa XDP) e registado em {\ttfamily xsks\+\_\+map\+[0]\+} via {\ttfamily bpf\+\_\+map\+\_\+update\+\_\+elem}.\hypertarget{index_autotoc_md21}{}\doxysubsection{\texorpdfstring{Camada 3 -\/ Consumidor AF\+\_\+\+XDP em espaço de utilizador}{Camada 3 -\/ Consumidor AF\+\_\+\+XDP em espaço de utilizador}}\label{index_autotoc_md21}
+O UMEM de {\ttfamily 2048 × 4096 bytes} é dividido em duas zonas:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Slots\ 0..1023\ \ \ \ →\ Fill\ ring\ (RX)\ -\/\ pré-\/carregados\ na\ inicialização}
+\DoxyCodeLine{Slots\ 1024..2047\ →\ Zona\ TX\ -\/\ tx\_frame\_idx\ incrementa\ ciclicamente}
+
+\end{DoxyCode}
+
+
+Esta divisão foi introduzida para resolver um bug crítico em que o kernel e o espaço de utilizador sobrescreviam os buffers um do outro quando o UMEM era partilhado sem partição.
+
+{\bfseries{Caminho RX:\+}}
+\begin{DoxyEnumerate}
+\item {\ttfamily xsk\+\_\+ring\+\_\+cons\+\_\+\+\_\+peek(\&rx, 1, \&idx)} -\/ verifica se há uma frame disponível;
+\item lê {\ttfamily addr} e {\ttfamily len} do descritor;
+\item {\ttfamily xsk\+\_\+umem\+\_\+\+\_\+get\+\_\+data(buffer, addr)} -\/ acesso direto ao UMEM (zero-\/copy);
+\item {\ttfamily memcpy(pkt, frame + \doxylink{stealth__net_8h_a29200875a787834671e9836f2356ed8d}{ETH\+\_\+\+HDR\+\_\+\+LEN}, sizeof(stealth\+\_\+pkt\+\_\+t))};
+\item devolve a frame ao fill ring para reutilização.
+\end{DoxyEnumerate}
+
+{\bfseries{Caminho TX:\+}}
+\begin{DoxyEnumerate}
+\item {\ttfamily xsk\+\_\+ring\+\_\+prod\+\_\+\+\_\+reserve(\&tx, 1, \&idx)};
+\item drain do completion ring (liberta tramas TX já enviadas);
+\item escreve o cabeçalho Ethernet + {\ttfamily \doxylink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} no slot UMEM;
+\item {\ttfamily xsk\+\_\+ring\+\_\+prod\+\_\+\+\_\+submit(\&tx, 1)};
+\item se {\ttfamily xsk\+\_\+ring\+\_\+prod\+\_\+\+\_\+needs\+\_\+wakeup()} → {\ttfamily sendto(..., MSG\+\_\+\+DONTWAIT)}.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md22}{}\doxysubsection{\texorpdfstring{Camada Criptográfica}{Camada Criptográfica}}\label{index_autotoc_md22}
+Segue o paradigma {\bfseries{Encrypt-\/then-\/\+MAC (EtM)}}:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Plaintext}
+\DoxyCodeLine{\ \ \ │}
+\DoxyCodeLine{\ \ \ ▼}
+\DoxyCodeLine{RAND\_bytes(16)\ ──►\ IV}
+\DoxyCodeLine{\ \ \ │}
+\DoxyCodeLine{\ \ \ ▼}
+\DoxyCodeLine{AES-\/256-\/CTR(PSK\_ENC,\ IV)\ ──►\ Ciphertext}
+\DoxyCodeLine{\ \ \ │}
+\DoxyCodeLine{\ \ \ ▼\ \ ┌──\ IV\ ──┐}
+\DoxyCodeLine{HMAC-\/SHA256(PSK\_MAC,\ IV\ ∥\ Ciphertext)\ ──►\ Tag\ (32B)}
+
+\end{DoxyCode}
+
+
+Na decifragem, o HMAC é {\bfseries{sempre verificado antes}} de qualquer operação de decifragem, usando {\ttfamily CRYPTO\+\_\+memcmp} (comparação em tempo constante, evitando timing side-\/channels). Se o HMAC falhar, o pacote é descartado sem tentar decifrar.
+
+A API {\ttfamily EVP\+\_\+\+MAC} do Open\+SSL 3.\+x é usada em modo incremental:\+ {\ttfamily EVP\+\_\+\+MAC\+\_\+update(ctx, iv, 16)} seguido de {\ttfamily EVP\+\_\+\+MAC\+\_\+update(ctx, ct, len)}. Assim, evita-\/se alocar um buffer apenas para concatenar IV e CT.
+
+Incluir o IV no âmbito do HMAC previne {\bfseries{IV-\/replacement attacks}}:\+ em AES-\/\+CTR, substituir o IV altera o keystream sem alterar o CT, corrompendo o texto limpo de forma potencialmente controlada. Com o IV autenticado, qualquer alteração ao IV invalida a tag antes da decifragem.\hypertarget{index_autotoc_md23}{}\doxysubsection{\texorpdfstring{Propriedades stealth}{Propriedades stealth}}\label{index_autotoc_md23}
+
+\begin{DoxyTable}{3}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Método de interceção  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Vê tramas?  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Razão  \\
+{\ttfamily tcpdump} /\+ {\ttfamily AF\+\_\+\+PACKET} no recetor  &{\bfseries{Não}}  &XDP zero-\/copy contorna a stack do kernel na receção  \\
+{\ttfamily tcpdump} /\+ {\ttfamily AF\+\_\+\+PACKET} no emissor  &{\bfseries{Não}}  &AF\+\_\+\+XDP TX contorna a stack do kernel e os hooks {\ttfamily tc} egress  \\
+{\ttfamily tc} egress mirror no emissor  &{\bfseries{Não}}  &{\ttfamily XDP\+\_\+\+FLAGS\+\_\+\+DRV\+\_\+\+MODE} e {\ttfamily tc clsact} conflituam no {\ttfamily mlx5}  \\
+Switch não gerido (3.ª porta)  &{\bfseries{Parcial}}  &Broadcast propagado -\/ a trama existe, mas o payload está cifrado  \\
+Switch gerido com SPAN  &{\bfseries{Sim}}  &Mirror ocorre antes da NIC; Ether\+Type e magic visíveis  \\
+Hardware TAP (inline)  &{\bfseries{Sim}}  &Interceção física; payload cifrado  \\
+\end{DoxyTable}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md25}{}\doxysection{\texorpdfstring{Dependências}{Dependências}}\label{index_autotoc_md25}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Ubuntu\ 24.04}
+\DoxyCodeLine{sudo\ apt\ install\ -\/y\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ clang\ llvm\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ libbpf-\/dev\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ libxdp-\/dev\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ libssl-\/dev\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ gcc\ make\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ ethtool\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ doxygen\ graphviz\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ linux-\/tools-\/\$(uname\ -\/r)\ \ \ \#\ bpftool}
+
+\end{DoxyCode}
+
+
+Hardware requerido:\+ NIC com suporte a XDP native mode e AF\+\_\+\+XDP zero-\/copy (testado em Mellanox Connect\+X-\/4, driver {\ttfamily mlx5}, kernel 6.\+8).
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md27}{}\doxysection{\texorpdfstring{Compilar}{Compilar}}\label{index_autotoc_md27}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+
+
+Produz:\+
+\begin{DoxyItemize}
+\item {\ttfamily xdp/\+xdp\+\_\+prog.\+o} -\/ BPF bytecode com metadados BTF;
+\item {\ttfamily stealth\+\_\+shell\+\_\+xdp} -\/ daemon em espaço de utilizador.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make\ clean\ \ \ \#\ remove\ todos\ os\ artefactos\ compilados}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md29}{}\doxysection{\texorpdfstring{Gerar documentação}{Gerar documentação}}\label{index_autotoc_md29}
+O projeto inclui um {\ttfamily Doxyfile}, por isso a documentação pode ser gerada novamente com:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ stealth\_shell}
+\DoxyCodeLine{doxygen\ Doxyfile}
+
+\end{DoxyCode}
+
+
+O resultado é escrito em {\ttfamily doc/\+}. A página principal HTML fica em:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doc/html/index.html}
+
+\end{DoxyCode}
+
+
+O Doxygen lê os comentários dos ficheiros {\ttfamily .c}, {\ttfamily .h} e scripts, e também gera grafos de chamadas/\+callers quando o {\ttfamily graphviz} está instalado.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md31}{}\doxysection{\texorpdfstring{Configurar o ambiente (setup)}{Configurar o ambiente (setup)}}\label{index_autotoc_md31}
+O script configura dois namespaces Linux num único host com uma Connect\+X-\/4 dual-\/port:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ ./stealth\_setup.sh}
+
+\end{DoxyCode}
+
+
+O script executa as seguintes etapas:\+
+\begin{DoxyEnumerate}
+\item remove namespaces e interfaces em estado residual;
+\item coloca as interfaces no host e configura {\ttfamily combined 1}, {\ttfamily GRO off} e {\ttfamily LRO off};
+\item cria os namespaces {\ttfamily mac1} e {\ttfamily mac2};
+\item move {\ttfamily enp2s0f0np0} → {\ttfamily mac1} e {\ttfamily enp2s0f1np1} → {\ttfamily mac2};
+\item coloca as interfaces em estado {\ttfamily up} dentro de cada namespace;
+\item monta {\ttfamily bpffs} em {\ttfamily /\+sys/\+fs/\+bpf/\+} dentro de cada namespace.
+\end{DoxyEnumerate}
+
+\begin{quote}
+{\bfseries{Atenção:\+}} {\ttfamily ethtool -\/L combined 1} é obrigatório antes de criar o socket AF\+\_\+\+XDP. Com múltiplas queues ativas, o RSS pode distribuir tramas para queues não associadas ao socket (bind feito à queue 0), causando perda silenciosa de pacotes. \end{quote}
+
+
+No final, o script imprime os MACs das interfaces e os comandos para iniciar:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\#\#\ Setup\ concluído\ \#\#\#}
+\DoxyCodeLine{}
+\DoxyCodeLine{MACs:}
+\DoxyCodeLine{\ \ mac1\ /\ enp2s0f0np0\ →\ aa:bb:cc:dd:ee:ff}
+\DoxyCodeLine{\ \ mac2\ /\ enp2s0f1np1\ →\ 11:22:33:44:55:66}
+\DoxyCodeLine{}
+\DoxyCodeLine{Iniciar\ (dois\ terminais):}
+\DoxyCodeLine{\ \ T1:\ sudo\ ip\ netns\ exec\ mac1\ ./stealth\_shell\_xdp\ enp2s0f0np0}
+\DoxyCodeLine{\ \ T2:\ sudo\ ip\ netns\ exec\ mac2\ ./stealth\_shell\_xdp\ enp2s0f1np1}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md33}{}\doxysection{\texorpdfstring{Correr}{Correr}}\label{index_autotoc_md33}
+É necessário abrir dois terminais após o setup:\+
+
+{\bfseries{Terminal 1 (namespace mac1):\+}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac1\ ./stealth\_shell\_xdp\ enp2s0f0np0}
+
+\end{DoxyCode}
+
+
+{\bfseries{Terminal 2 (namespace mac2):\+}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac2\ ./stealth\_shell\_xdp\ enp2s0f1np1}
+
+\end{DoxyCode}
+
+
+O daemon imprime ao arranque:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[+]\ XDP\ NATIVE\ em\ 'enp2s0f0np0'\ -\/\ prog\_id\ nosso=42\ anexado=42\ ✓}
+\DoxyCodeLine{[+]\ AF\_XDP\ socket:\ NATIVE\ +\ ZERO-\/COPY\ on\ 'enp2s0f0np0'}
+\DoxyCodeLine{[+]\ Socket\ fd=7\ registado\ em\ xsks\_map[0]}
+\DoxyCodeLine{[+]\ UMEM:\ 1024\ frames\ RX\ |\ 1024\ frames\ TX}
+\DoxyCodeLine{}
+\DoxyCodeLine{>>>\ Stealth\ Shell\ L2\ activo\ em\ enp2s0f0np0\ <<<}
+\DoxyCodeLine{}
+\DoxyCodeLine{MAC\ local\ \ :\ \ aa\ bb\ cc\ dd\ ee\ ff}
+\DoxyCodeLine{MAC\ remoto\ :\ \ ff\ ff\ ff\ ff\ ff\ ff}
+\DoxyCodeLine{EtherType\ \ :\ 0x88B5}
+\DoxyCodeLine{Crypto\ \ \ \ \ :\ AES-\/256-\/CTR\ +\ HMAC-\/SHA256}
+\DoxyCodeLine{Frame\ \ \ \ \ \ :\ 270\ bytes\ (Eth\ +\ stealth\_pkt\_t)}
+\DoxyCodeLine{XDP\ mode\ \ \ :\ NATIVE\ (DRV)\ +\ ZERO-\/COPY}
+
+\end{DoxyCode}
+
+
+De seguida, escreve uma mensagem em qualquer um dos terminais e prime Enter para enviar. A outra ponta recebe, verifica o HMAC e decifra automaticamente.
+
+Para sair:\+ {\ttfamily Ctrl+C} (faz a limpeza e remove o programa XDP da interface).
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md35}{}\doxysection{\texorpdfstring{Verificar estatísticas em execução}{Verificar estatísticas em execução}}\label{index_autotoc_md35}
+Enquanto o daemon está a correr, é possível inspecionar os contadores BPF:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Frames\ matched\ (EtherType\ +\ magic\ +\ anti-\/replay\ passaram)}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac1\ bpftool\ map\ dump\ name\ stats\_map}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Dump\ completo\ do\ replay\_map\ (sequências\ registadas)}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac1\ bpftool\ map\ dump\ name\ replay\_map}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Ver\ o\ programa\ XDP\ carregado}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac1\ bpftool\ prog\ show}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#Ver\ o\ trace\_pipe\ do\ kernel}
+\DoxyCodeLine{sudo\ cat\ /sys/kernel/debug/tracing/trace\_pipe}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#Ver\ que\ não\ esta\ no\ tcpdup}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac2\ tcpdump\ -\/i\ enp2s0f1np1\ -\/e\ -\/n\ -\/xx}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md37}{}\doxysection{\texorpdfstring{Limpar}{Limpar}}\label{index_autotoc_md37}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Remover\ namespaces\ e\ devolver\ interfaces\ ao\ host}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac1\ ip\ link\ set\ enp2s0f0np0\ netns\ 1}
+\DoxyCodeLine{sudo\ ip\ netns\ exec\ mac2\ ip\ link\ set\ enp2s0f1np1\ netns\ 1}
+\DoxyCodeLine{sudo\ ip\ netns\ del\ mac1}
+\DoxyCodeLine{sudo\ ip\ netns\ del\ mac2}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Remover\ artefactos\ de\ compilação}
+\DoxyCodeLine{make\ clean}
+
+\end{DoxyCode}
+
+
+Também pode correr {\ttfamily stealth\+\_\+unsetup.\+sh}; a sua função é limpar o cenário anterior e devolver as interfaces ao namespace principal. 

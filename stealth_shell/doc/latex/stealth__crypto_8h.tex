@@ -7,10 +7,20 @@ Módulo criptográfico focado em cifragem simétrica e integridade de dados.
 
 {\ttfamily \+\#include $<$stdint.\+h$>$}\newline
 {\ttfamily \+\#include $<$stddef.\+h$>$}\newline
-Diagrama de dependências de inclusão para stealth\+\_\+crypto.\+h:\+
-% FIG 0
-Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:\+
-% FIG 1
+Diagrama de dependências de inclusão para stealth\+\_\+crypto.\+h:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{stealth__crypto_8h__incl}
+\end{center}
+\end{figure}
+Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{stealth__crypto_8h__dep__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -40,7 +50,7 @@ Pedro Galvão
 \end{DoxyDate}
 
 
-\label{stealth__crypto_8h_doc-define-members}
+\label{doc-define-members}
 \Hypertarget{stealth__crypto_8h_doc-define-members}
 \doxysubsection{Documentação das macros}
 \Hypertarget{stealth__crypto_8h_a1f77d9efc0348791980ead85be957744}\index{stealth\_crypto.h@{stealth\_crypto.h}!CRYPTO\_HMAC\_SIZE@{CRYPTO\_HMAC\_SIZE}}
@@ -63,7 +73,7 @@ Dimensão em bytes necessária para o IV AES-\/256-\/\+CTR \Hypertarget{stealth_
 
 Tamanho de chave estipulado em 256 bits (32 bytes) 
 
-\label{stealth__crypto_8h_doc-func-members}
+\label{doc-func-members}
 \Hypertarget{stealth__crypto_8h_doc-func-members}
 \doxysubsection{Documentação das funções}
 \Hypertarget{stealth__crypto_8h_aafdeb6a3e4a76618c0769d361813a7dd}\index{stealth\_crypto.h@{stealth\_crypto.h}!stealth\_decrypt@{stealth\_decrypt}}
@@ -92,10 +102,20 @@ Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado.
 \begin{DoxyReturn}{Retorna}
 1 se o HMAC for autêntico e a decifragem concluir, 0 se o pacote for corrompido/\+adulterado. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 2
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 3
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8h_aafdeb6a3e4a76618c0769d361813a7dd_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8h_aafdeb6a3e4a76618c0769d361813a7dd_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__crypto_8h_aa8a6a9a52918275e61b46824502f3eb1}\index{stealth\_crypto.h@{stealth\_crypto.h}!stealth\_encrypt@{stealth\_encrypt}}
 \index{stealth\_encrypt@{stealth\_encrypt}!stealth\_crypto.h@{stealth\_crypto.h}}
 \doxysubsubsection{\texorpdfstring{stealth\_encrypt()}{stealth\_encrypt()}}
@@ -122,7 +142,17 @@ Encripta o plaintext usando AES-\/256-\/\+CTR e calcula a respetiva tag HMAC-\/\
 \begin{DoxyReturn}{Retorna}
 1 se a operação foi bem-\/sucedida, 0 se ocorreu falha na cifragem ou entropia. 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 4
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 5
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8h_aa8a6a9a52918275e61b46824502f3eb1_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8h_aa8a6a9a52918275e61b46824502f3eb1_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,10 @@
+<map id="compute_hmac" name="compute_hmac">
+<area shape="rect" id="Node000001" title="Função interna para cálculo do MAC sobre o vetor de inicialização e a carga cifrada." alt="" coords="261,31,371,57"/>
+<area shape="rect" id="Node000002" href="$stealth__crypto_8c.html#aafdeb6a3e4a76618c0769d361813a7dd" title="Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado." alt="" coords="103,5,213,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,33,213,30,213,25,248,32"/>
+<area shape="rect" id="Node000004" href="$stealth__crypto_8c.html#aa8a6a9a52918275e61b46824502f3eb1" title="Encripta o plaintext usando AES&#45;256&#45;CTR e calcula a respetiva tag HMAC&#45;SHA256." alt="" coords="103,56,213,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,55,214,63,213,58,243,56"/>
+<area shape="rect" id="Node000003" href="$stealth__shell_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Ponto de entrada do executável da aplicação." alt="" coords="5,31,55,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,34,56,42,54,37,90,31"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="85,57,55,51,55,46,90,54"/>
+</map>

@@ -1,0 +1,174 @@
+\doxysection{Referência ao ficheiro stealth\+\_\+shell/\+stealth\+\_\+crypto.c}
+\hypertarget{stealth__crypto_8c}{}\label{stealth__crypto_8c}\index{stealth\_shell/stealth\_crypto.c@{stealth\_shell/stealth\_crypto.c}}
+
+
+Implementações criptográficas utilizando a API Open\+SSL EVP Providers.  
+
+
+{\ttfamily \+\#include "{}stealth\+\_\+crypto.\+h"{}}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$openssl/\+evp.\+h$>$}\newline
+{\ttfamily \+\#include $<$openssl/\+rand.\+h$>$}\newline
+{\ttfamily \+\#include $<$openssl/\+params.\+h$>$}\newline
+{\ttfamily \+\#include $<$openssl/\+core\+\_\+names.\+h$>$}\newline
+Diagrama de dependências de inclusão para stealth\+\_\+crypto.\+c:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__crypto_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__crypto_8c_ac47ca4e7fd9786212b1c79c34e53f8a1}\label{stealth__crypto_8c_ac47ca4e7fd9786212b1c79c34e53f8a1} 
+\+\#define {\bfseries PSK\+\_\+\+ENC}~"{}stlh\+\_\+enc\+\_\+k32\+\_\+0123456789abcdef\+XX"{}
+\item 
+\Hypertarget{stealth__crypto_8c_ae48cecf6b58ec0469e991dfb4fa374f4}\label{stealth__crypto_8c_ae48cecf6b58ec0469e991dfb4fa374f4} 
+\+\#define {\bfseries PSK\+\_\+\+MAC}~"{}stlh\+\_\+mac\+\_\+k32\+\_\+fedcba9876543210\+XX"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+static int \doxymbox{\hyperlink{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a}{compute\+\_\+hmac}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}iv, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}ct, uint16\+\_\+t ct\+\_\+len, uint8\+\_\+t \texorpdfstring{$\ast$}{*}hmac\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Função interna para cálculo do MAC sobre o vetor de inicialização e a carga cifrada. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1}{stealth\+\_\+encrypt}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}plaintext, uint16\+\_\+t len, uint8\+\_\+t \texorpdfstring{$\ast$}{*}iv\+\_\+out, uint8\+\_\+t \texorpdfstring{$\ast$}{*}ciphertext, uint8\+\_\+t \texorpdfstring{$\ast$}{*}hmac\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Encripta o plaintext usando AES-\/256-\/\+CTR e calcula a respetiva tag HMAC-\/\+SHA256. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd}{stealth\+\_\+decrypt}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}ciphertext, uint16\+\_\+t len, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}iv, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}hmac, uint8\+\_\+t \texorpdfstring{$\ast$}{*}plaintext)
+\begin{DoxyCompactList}\small\item\em Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variáveis}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__crypto_8c_a5fad5ca2d66b452719e6e087b0429efa}\label{stealth__crypto_8c_a5fad5ca2d66b452719e6e087b0429efa} 
+static const uint8\+\_\+t {\bfseries ENC\+\_\+\+KEY} \+[\doxymbox{\hyperlink{stealth__crypto_8h_a064ef8413252c5465e8c4eca4cf615c4}{CRYPTO\+\_\+\+KEY\+\_\+\+SIZE}}]\+ = PSK\+\_\+\+ENC
+\item 
+\Hypertarget{stealth__crypto_8c_a2923e1e718f17260016af6704fc259a9}\label{stealth__crypto_8c_a2923e1e718f17260016af6704fc259a9} 
+static const uint8\+\_\+t {\bfseries MAC\+\_\+\+KEY} \+[\doxymbox{\hyperlink{stealth__crypto_8h_a064ef8413252c5465e8c4eca4cf615c4}{CRYPTO\+\_\+\+KEY\+\_\+\+SIZE}}]\+ = PSK\+\_\+\+MAC
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Implementações criptográficas utilizando a API Open\+SSL EVP Providers. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{stealth__crypto_8c_doc-func-members}
+\doxysubsection{Documentação das funções}
+\Hypertarget{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a}\index{stealth\_crypto.c@{stealth\_crypto.c}!compute\_hmac@{compute\_hmac}}
+\index{compute\_hmac@{compute\_hmac}!stealth\_crypto.c@{stealth\_crypto.c}}
+\doxysubsubsection{\texorpdfstring{compute\_hmac()}{compute\_hmac()}}
+{\footnotesize\ttfamily \label{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a} 
+int compute\+\_\+hmac (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{iv}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{ct}{, }\item[{uint16\+\_\+t}]{ct\+\_\+len}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{hmac\+\_\+out}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Função interna para cálculo do MAC sobre o vetor de inicialização e a carga cifrada. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em iv} & Ponteiro para o vetor de inicialização do bloco. \\
+\hline
+{\em ct} & Ponteiro para o array contendo o ciphertext. \\
+\hline
+{\em ct\+\_\+len} & Tamanho em bytes da sequência cifrada. \\
+\hline
+{\em hmac\+\_\+out} & Buffer onde será vertida a assinatura final (mínimo 32 bytes). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+1 em caso de sucesso, 0 se houver erros na inicialização ou alimentação do contexto MAC. 
+\end{DoxyReturn}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__crypto_8c_a897f0c90cd1523e34db3a90c3afa813a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd}\index{stealth\_crypto.c@{stealth\_crypto.c}!stealth\_decrypt@{stealth\_decrypt}}
+\index{stealth\_decrypt@{stealth\_decrypt}!stealth\_crypto.c@{stealth\_crypto.c}}
+\doxysubsubsection{\texorpdfstring{stealth\_decrypt()}{stealth\_decrypt()}}
+{\footnotesize\ttfamily \label{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd} 
+int stealth\+\_\+decrypt (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{ciphertext}{, }\item[{uint16\+\_\+t}]{len}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{iv}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{hmac}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{plaintext}{}\end{DoxyParamCaption})}
+
+
+
+Valida a tag HMAC e, se fidedigna, desencripta o conteúdo cifrado. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em ciphertext} & Ponteiro para a sequência de dados em formato cifrado. \\
+\hline
+{\em len} & Comprimento do bloco cifrado em bytes. \\
+\hline
+{\em iv} & Ponteiro para o Vetor de Inicialização usado na cifragem. \\
+\hline
+{\em hmac} & Ponteiro para a assinatura recebida a ser auditada. \\
+\hline
+{\em plaintext} & Buffer de saída onde o texto original decifrado será escrito. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+1 se o HMAC for autêntico e a decifragem concluir, 0 se o pacote for corrompido/\+adulterado. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8c_aafdeb6a3e4a76618c0769d361813a7dd_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1}\index{stealth\_crypto.c@{stealth\_crypto.c}!stealth\_encrypt@{stealth\_encrypt}}
+\index{stealth\_encrypt@{stealth\_encrypt}!stealth\_crypto.c@{stealth\_crypto.c}}
+\doxysubsubsection{\texorpdfstring{stealth\_encrypt()}{stealth\_encrypt()}}
+{\footnotesize\ttfamily \label{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1} 
+int stealth\+\_\+encrypt (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{plaintext}{, }\item[{uint16\+\_\+t}]{len}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{iv\+\_\+out}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{ciphertext}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{hmac\+\_\+out}{}\end{DoxyParamCaption})}
+
+
+
+Encripta o plaintext usando AES-\/256-\/\+CTR e calcula a respetiva tag HMAC-\/\+SHA256. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em plaintext} & Ponteiro para os dados em texto limpo. \\
+\hline
+{\em len} & Comprimento do plaintext em bytes. \\
+\hline
+{\em iv\+\_\+out} & Buffer de saída onde o IV aleatório gerado será armazenado. \\
+\hline
+{\em ciphertext} & Buffer de saída para guardar os dados cifrados resultantes. \\
+\hline
+{\em hmac\+\_\+out} & Buffer de saída para guardar a assinatura digital HMAC. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+1 se a operação foi bem-\/sucedida, 0 se ocorreu falha na cifragem ou entropia. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{stealth__crypto_8c_aa8a6a9a52918275e61b46824502f3eb1_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,7 @@
+<map id="stealth_net.h" name="stealth_net.h">
+<area shape="rect" id="Node000001" title="Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell." alt="" coords="68,5,164,32"/>
+<area shape="rect" id="Node000002" href="$stealth__net_8c.html" title="Implementações de baixo nível para orquestração de rings AF_XDP e carregamento eBPF." alt="" coords="5,80,102,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,43,66,82,62,78,93,45"/>
+<area shape="rect" id="Node000003" href="$stealth__shell_8c.html" title="Programa principal (Userspace CLI) do Stealth Shell baseado em AF_XDP." alt="" coords="126,80,232,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,42,171,80,165,79,136,46"/>
+</map>

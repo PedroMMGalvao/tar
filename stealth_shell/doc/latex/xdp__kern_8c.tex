@@ -9,8 +9,13 @@ Programa e\+BPF executado no Kernel para filtragem e redirecionamento de pacotes
 {\ttfamily \+\#include $<$linux/\+if\+\_\+ether.\+h$>$}\newline
 {\ttfamily \+\#include $<$bpf/\+bpf\+\_\+helpers.\+h$>$}\newline
 {\ttfamily \+\#include $<$bpf/\+bpf\+\_\+endian.\+h$>$}\newline
-Diagrama de dependências de inclusão para xdp\+\_\+kern.\+c:\+
-% FIG 0
+Diagrama de dependências de inclusão para xdp\+\_\+kern.\+c:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{xdp__kern_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Componentes}
 \begin{DoxyCompactItemize}
 \item 
@@ -93,7 +98,7 @@ Pedro Galvão
 \end{DoxyDate}
 
 
-\label{xdp__kern_8c_doc-func-members}
+\label{doc-func-members}
 \Hypertarget{xdp__kern_8c_doc-func-members}
 \doxysubsection{Documentação das funções}
 \Hypertarget{xdp__kern_8c_aa855b41374beb0e3e79237d2a717b20c}\index{xdp\_kern.c@{xdp\_kern.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
@@ -149,8 +154,13 @@ Incrementa de forma atómica os contadores de estatísticas no mapa e\+BPF.
 {\em idx} & Índice do contador a incrementar (0 para Aceites, 1 para Descartados). \\
 \hline
 \end{DoxyParams}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 1
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{xdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b}\index{xdp\_kern.c@{xdp\_kern.c}!xdp\_stealth\_filter@{xdp\_stealth\_filter}}
 \index{xdp\_stealth\_filter@{xdp\_stealth\_filter}!xdp\_kern.c@{xdp\_kern.c}}
 \doxysubsubsection{\texorpdfstring{xdp\_stealth\_filter()}{xdp\_stealth\_filter()}}
@@ -180,13 +190,23 @@ Inspeciona sequencialmente o frame recebido a nível de hardware:\+
 Decisão de ação XDP ({\ttfamily XDP\+\_\+\+PASS}, {\ttfamily XDP\+\_\+\+DROP} ou resultado de {\ttfamily bpf\+\_\+redirect\+\_\+map}). 
 \end{DoxyReturn}
 
-\end{DoxyEnumerate}Grafo de chamadas desta função:\+
-% FIG 2
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 3
+\end{DoxyEnumerate}Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b_icgraph}
+\end{center}
+\end{figure}
 
 
-\label{xdp__kern_8c_doc-var-members}
+\label{doc-var-members}
 \Hypertarget{xdp__kern_8c_doc-var-members}
 \doxysubsection{Documentação das variáveis}
 \Hypertarget{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590}\index{xdp\_kern.c@{xdp\_kern.c}!magic@{magic}}

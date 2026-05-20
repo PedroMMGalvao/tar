@@ -18,8 +18,13 @@ Programa principal (Userspace CLI) do Stealth Shell baseado em AF\+\_\+\+XDP.
 {\ttfamily \+\#include $<$linux/\+if\+\_\+link.\+h$>$}\newline
 {\ttfamily \+\#include "{}stealth\+\_\+net.\+h"{}}\newline
 {\ttfamily \+\#include "{}stealth\+\_\+crypto.\+h"{}}\newline
-Diagrama de dependências de inclusão para stealth\+\_\+shell.\+c:\+
-% FIG 0
+Diagrama de dependências de inclusão para stealth\+\_\+shell.\+c:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__shell_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -72,7 +77,7 @@ Programa principal (Userspace CLI) do Stealth Shell baseado em AF\+\_\+\+XDP.
 
 
 
-\label{stealth__shell_8c_doc-func-members}
+\label{doc-func-members}
 \Hypertarget{stealth__shell_8c_doc-func-members}
 \doxysubsection{Documentação das funções}
 \Hypertarget{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293}\index{stealth\_shell.c@{stealth\_shell.c}!get\_local\_mac@{get\_local\_mac}}
@@ -95,8 +100,13 @@ Obtém o endereço MAC de hardware associado à interface local configurada.
 \begin{DoxyReturn}{Retorna}
 0 se lido com sucesso, -\/1 caso ocorra falha na execução do ioctl. 
 \end{DoxyReturn}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 1
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{stealth__shell_8c_a2c45bea8dfcf2ba9a9dede1bedefd293_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627}\index{stealth\_shell.c@{stealth\_shell.c}!main@{main}}
 \index{main@{main}!stealth\_shell.c@{stealth\_shell.c}}
 \doxysubsubsection{\texorpdfstring{main()}{main()}}
@@ -117,8 +127,13 @@ Ponto de entrada do executável da aplicação.
 \begin{DoxyReturn}{Retorna}
 Código de execução (0 para término regular, 1 para falhas estruturais). 
 \end{DoxyReturn}
-Grafo de chamadas desta função:\+
-% FIG 2
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stealth__shell_8c_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654}\index{stealth\_shell.c@{stealth\_shell.c}!on\_sigint@{on\_sigint}}
 \index{on\_sigint@{on\_sigint}!stealth\_shell.c@{stealth\_shell.c}}
 \doxysubsubsection{\texorpdfstring{on\_sigint()}{on\_sigint()}}
@@ -134,10 +149,20 @@ Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo.
 {\em sig} & Número identificador do sinal intercetado. \\
 \hline
 \end{DoxyParams}
-Grafo de chamadas desta função:\+
-% FIG 3
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 4
+Grafo de chamadas desta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654_cgraph}
+\end{center}
+\end{figure}
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{stealth__shell_8c_ad1a077ebed5ed14af0d201d951308654_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa}\index{stealth\_shell.c@{stealth\_shell.c}!print\_hex@{print\_hex}}
 \index{print\_hex@{print\_hex}!stealth\_shell.c@{stealth\_shell.c}}
 \doxysubsubsection{\texorpdfstring{print\_hex()}{print\_hex()}}
@@ -157,11 +182,16 @@ Utilitário auxiliar para despejo hexadecimal de dados na consola (Hexdump).
 {\em len} & Número de bytes a processar para impressão. \\
 \hline
 \end{DoxyParams}
-Este é o diagrama das funções que utilizam esta função:\+
-% FIG 5
+Este é o diagrama das funções que utilizam esta função:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{stealth__shell_8c_ae26625f48bbdffcb76599e9c0c7a7caa_icgraph}
+\end{center}
+\end{figure}
 
 
-\label{stealth__shell_8c_doc-var-members}
+\label{doc-var-members}
 \Hypertarget{stealth__shell_8c_doc-var-members}
 \doxysubsection{Documentação das variáveis}
 \Hypertarget{stealth__shell_8c_a7c7c652180072f6d3bda0cd6d91631f0}\index{stealth\_shell.c@{stealth\_shell.c}!g\_iface@{g\_iface}}
