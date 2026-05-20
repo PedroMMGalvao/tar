@@ -1,10 +1,18 @@
 #!/bin/bash
 set -e
 
-NS1="mac1"
-NS2="mac2"
-IF1="enp2s0f0np0"
-IF2="enp2s0f1np1"
+## @file stealth_setup.sh
+## @brief Script de automatização para isolamento e provisionamento do ambiente eBPF/XDP.
+## @details Este script limpa configurações anteriores, desativa offloads de hardware (GRO/LRO),
+##          força a alocação de canais combinados para a Queue 0 (exigência do AF_XDP) e isola 
+##          as interfaces físicas da Mellanox ConnectX-4 em dois Network Namespaces (mac1 e mac2).
+## @author Pedro Galvão
+## @date 2026
+
+NS1="mac1"  ##< Namespace do Nó 1
+NS2="mac2"  ##< Namespace do Nó 2
+IF1="enp2s0f0np0"  ##< Interface física alocada ao Nó 1
+IF2="enp2s0f1np1"  ##< Interface física alocada ao Nó 2
 
 echo "### Setup XDP L2 — ConnectX-4 em namespaces ###"
 

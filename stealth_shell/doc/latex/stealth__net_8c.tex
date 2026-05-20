@@ -1,0 +1,192 @@
+\doxysection{Referência ao ficheiro stealth\+\_\+net.\+c}
+\hypertarget{stealth__net_8c}{}\label{stealth__net_8c}\index{stealth\_net.c@{stealth\_net.c}}
+
+
+Implementações de baixo nível para orquestração de rings AF\+\_\+\+XDP e carregamento e\+BPF.  
+
+
+{\ttfamily \+\#include "{}stealth\+\_\+net.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$unistd.\+h$>$}\newline
+{\ttfamily \+\#include $<$errno.\+h$>$}\newline
+{\ttfamily \+\#include $<$net/\+if.\+h$>$}\newline
+{\ttfamily \+\#include $<$linux/\+if\+\_\+ether.\+h$>$}\newline
+{\ttfamily \+\#include $<$arpa/\+inet.\+h$>$}\newline
+{\ttfamily \+\#include $<$linux/\+if\+\_\+link.\+h$>$}\newline
+{\ttfamily \+\#include $<$bpf/\+bpf.\+h$>$}\newline
+{\ttfamily \+\#include $<$bpf/\+libbpf.\+h$>$}\newline
+{\ttfamily \+\#include $<$xdp/\+xsk.\+h$>$}\newline
+{\ttfamily \+\#include $<$linux/\+bpf.\+h$>$}\newline
+Diagrama de dependências de inclusão para stealth\+\_\+net.\+c:\+
+% FIG 0
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{stealth__net_8c_a2cd3196ac0b87ced448f49e0d9e33ca0}\label{stealth__net_8c_a2cd3196ac0b87ced448f49e0d9e33ca0} 
+\+\#define {\bfseries BPF\+\_\+\+OBJ\+\_\+\+PATH}~"{}xdp/\+xdp\+\_\+prog.\+o"{}
+\item 
+\Hypertarget{stealth__net_8c_abca1b938470bc79ce396a55a06e20615}\label{stealth__net_8c_abca1b938470bc79ce396a55a06e20615} 
+\+\#define {\bfseries BPF\+\_\+\+PROG\+\_\+\+NAME}~"{}xdp\+\_\+stealth\+\_\+filter"{}
+\item 
+\Hypertarget{stealth__net_8c_a6e0c65ab3a265d60ece49a6c3bb7cd7e}\label{stealth__net_8c_a6e0c65ab3a265d60ece49a6c3bb7cd7e} 
+\+\#define {\bfseries BPF\+\_\+\+MAP\+\_\+\+NAME}~"{}xsks\+\_\+map"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{stealth__net_8c_ab2386909407909691fa7140e9020f7a7}{generate\+\_\+random\+\_\+mac}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}mac)
+\begin{DoxyCompactList}\small\item\em Gera um endereço MAC pseudo-\/aleatório através do /\+dev/\+urandom. \end{DoxyCompactList}\item 
+static int \doxymbox{\hyperlink{stealth__net_8c_a9d41c2500988d3a978d0c99875c27bf6}{libbpf\+\_\+quiet}} (enum libbpf\+\_\+print\+\_\+level level, const char \texorpdfstring{$\ast$}{*}fmt, va\+\_\+list ap)
+\begin{DoxyCompactList}\small\item\em Callback costumizado para supressão de mensagens informativas da libbpf. \end{DoxyCompactList}\item 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd}{init\+\_\+xsk\+\_\+socket}} (const char \texorpdfstring{$\ast$}{*}ifname)
+\begin{DoxyCompactList}\small\item\em Inicializa e configura o ambiente e\+BPF /\+ AF\+\_\+\+XDP na interface especificada. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{stealth__net_8c_ade686245a281d30b370ed9861f14f916}{cleanup\+\_\+xsk\+\_\+socket}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, const char \texorpdfstring{$\ast$}{*}ifname)
+\begin{DoxyCompactList}\small\item\em Realiza o desanexamento do programa XDP e liberta todos os recursos do socket. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8}{xsk\+\_\+send\+\_\+packet}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}pkt)
+\begin{DoxyCompactList}\small\item\em Envia um pacote stealth formatado através do ring de TX da interface. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9}{xsk\+\_\+receive\+\_\+packet}} (struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}xsk, \doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}pkt)
+\begin{DoxyCompactList}\small\item\em Verifica o anel de receção e extrai um frame stealth se disponível. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Implementações de baixo nível para orquestração de rings AF\+\_\+\+XDP e carregamento e\+BPF. 
+
+
+
+\label{stealth__net_8c_doc-func-members}
+\Hypertarget{stealth__net_8c_doc-func-members}
+\doxysubsection{Documentação das funções}
+\Hypertarget{stealth__net_8c_ade686245a281d30b370ed9861f14f916}\index{stealth\_net.c@{stealth\_net.c}!cleanup\_xsk\_socket@{cleanup\_xsk\_socket}}
+\index{cleanup\_xsk\_socket@{cleanup\_xsk\_socket}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{cleanup\_xsk\_socket()}{cleanup\_xsk\_socket()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_ade686245a281d30b370ed9861f14f916} 
+void cleanup\+\_\+xsk\+\_\+socket (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{ifname}{}\end{DoxyParamCaption})}
+
+
+
+Realiza o desanexamento do programa XDP e liberta todos os recursos do socket. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto do socket obtido em init\+\_\+xsk\+\_\+socket. \\
+\hline
+{\em ifname} & Nome da interface de rede associada. \\
+\hline
+\end{DoxyParams}
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 1
+\Hypertarget{stealth__net_8c_ab2386909407909691fa7140e9020f7a7}\index{stealth\_net.c@{stealth\_net.c}!generate\_random\_mac@{generate\_random\_mac}}
+\index{generate\_random\_mac@{generate\_random\_mac}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{generate\_random\_mac()}{generate\_random\_mac()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_ab2386909407909691fa7140e9020f7a7} 
+void generate\+\_\+random\+\_\+mac (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{mac}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Gera um endereço MAC pseudo-\/aleatório através do /\+dev/\+urandom. 
+
+
+\begin{DoxyItemize}
+\item Aplica as máscaras de bits necessárias para garantir que o MAC gerado está em conformidade com as regras de endereço Unicast Localmente Administrado (ULA).
+\item 
+\begin{DoxyParams}{Parâmetros}
+{\em mac} & Buffer de 6 bytes de saída para o endereço MAC. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}Este é o diagrama das funções que utilizam esta função:\+
+% FIG 2
+\Hypertarget{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd}\index{stealth\_net.c@{stealth\_net.c}!init\_xsk\_socket@{init\_xsk\_socket}}
+\index{init\_xsk\_socket@{init\_xsk\_socket}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{init\_xsk\_socket()}{init\_xsk\_socket()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_a0e9470401e8e266b02f94bd1240cc7cd} 
+struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*} init\+\_\+xsk\+\_\+socket (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{ifname}{}\end{DoxyParamCaption})}
+
+
+
+Inicializa e configura o ambiente e\+BPF /\+ AF\+\_\+\+XDP na interface especificada. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em ifname} & Nome legível da interface de rede (ex:\+ "{}eth0"{}). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+Ponteiro para a estrutura \doxylink{structxsk__info}{xsk\+\_\+info} alocada, ou NULL em caso de falha. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+% FIG 3
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 4
+\Hypertarget{stealth__net_8c_a9d41c2500988d3a978d0c99875c27bf6}\index{stealth\_net.c@{stealth\_net.c}!libbpf\_quiet@{libbpf\_quiet}}
+\index{libbpf\_quiet@{libbpf\_quiet}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{libbpf\_quiet()}{libbpf\_quiet()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_a9d41c2500988d3a978d0c99875c27bf6} 
+int libbpf\+\_\+quiet (\begin{DoxyParamCaption}\item[{enum libbpf\+\_\+print\+\_\+level}]{level}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt}{, }\item[{va\+\_\+list}]{ap}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Callback costumizado para supressão de mensagens informativas da libbpf. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em level} & Nível de verbosidade do log detetado. \\
+\hline
+{\em fmt} & String de formatação padrão print. \\
+\hline
+{\em ap} & Lista de argumentos variáveis. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+Retorna a saída padrão de erro apenas se for um aviso (LIBBPF\+\_\+\+WARN). 
+\end{DoxyReturn}
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 5
+\Hypertarget{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9}\index{stealth\_net.c@{stealth\_net.c}!xsk\_receive\_packet@{xsk\_receive\_packet}}
+\index{xsk\_receive\_packet@{xsk\_receive\_packet}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{xsk\_receive\_packet()}{xsk\_receive\_packet()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_a364f8f716fd1aa529c476f7a477214d9} 
+int xsk\+\_\+receive\+\_\+packet (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{\doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{pkt}{}\end{DoxyParamCaption})}
+
+
+
+Verifica o anel de receção e extrai um frame stealth se disponível. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto operacional do socket. \\
+\hline
+{\em pkt} & Ponteiro de destino onde o conteúdo do frame será copiado. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+1 se um pacote foi recebido com sucesso, 0 se não existiam dados pendentes. 
+\end{DoxyReturn}
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 6
+\Hypertarget{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8}\index{stealth\_net.c@{stealth\_net.c}!xsk\_send\_packet@{xsk\_send\_packet}}
+\index{xsk\_send\_packet@{xsk\_send\_packet}!stealth\_net.c@{stealth\_net.c}}
+\doxysubsubsection{\texorpdfstring{xsk\_send\_packet()}{xsk\_send\_packet()}}
+{\footnotesize\ttfamily \label{stealth__net_8c_ac2dfb903f0be71b96ca245dea391e9a8} 
+int xsk\+\_\+send\+\_\+packet (\begin{DoxyParamCaption}\item[{struct \doxymbox{\hyperlink{structxsk__info}{xsk\+\_\+info}} \texorpdfstring{$\ast$}{*}}]{xsk}{, }\item[{\doxymbox{\hyperlink{structstealth__pkt__t}{stealth\+\_\+pkt\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{pkt}{}\end{DoxyParamCaption})}
+
+
+
+Envia um pacote stealth formatado através do ring de TX da interface. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em xsk} & Ponteiro para o contexto operacional do socket. \\
+\hline
+{\em pkt} & Ponteiro para a estrutura populada contendo os dados e assinaturas. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+0 em caso de sucesso, -\/1 se o anel de transmissão estiver cheio. 
+\end{DoxyReturn}
+Grafo de chamadas desta função:\+
+% FIG 7
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 8

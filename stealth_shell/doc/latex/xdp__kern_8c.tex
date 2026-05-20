@@ -1,0 +1,204 @@
+\doxysection{Referência ao ficheiro xdp/\+xdp\+\_\+kern.c}
+\hypertarget{xdp__kern_8c}{}\label{xdp__kern_8c}\index{xdp/xdp\_kern.c@{xdp/xdp\_kern.c}}
+
+
+Programa e\+BPF executado no Kernel para filtragem e redirecionamento de pacotes.  
+
+
+{\ttfamily \+\#include $<$linux/\+bpf.\+h$>$}\newline
+{\ttfamily \+\#include $<$linux/\+if\+\_\+ether.\+h$>$}\newline
+{\ttfamily \+\#include $<$bpf/\+bpf\+\_\+helpers.\+h$>$}\newline
+{\ttfamily \+\#include $<$bpf/\+bpf\+\_\+endian.\+h$>$}\newline
+Diagrama de dependências de inclusão para xdp\+\_\+kern.\+c:\+
+% FIG 0
+\doxysubsubsection*{Componentes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structstealth__hdr}{stealth\+\_\+hdr}}
+\begin{DoxyCompactList}\small\item\em Cabeçalho mínimo de controlo e validação embutido logo após o cabeçalho Ethernet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{xdp__kern_8c_af297dcdbdcc0806e1a61148ffc215af4}\label{xdp__kern_8c_af297dcdbdcc0806e1a61148ffc215af4} 
+\+\#define {\bfseries STEALTH\+\_\+\+ETHERTYPE}~0x88\+B5u
+\begin{DoxyCompactList}\small\item\em Ether\+Type customizado para identificação do tráfego do Stealth Shell (0x88\+B5). \end{DoxyCompactList}\item 
+\Hypertarget{xdp__kern_8c_aa1fd81cd810a89571aff4c0e8da503ff}\label{xdp__kern_8c_aa1fd81cd810a89571aff4c0e8da503ff} 
+\+\#define {\bfseries STEALTH\+\_\+\+MAGIC}~0x484\+C5453u
+\begin{DoxyCompactList}\small\item\em Assinatura mágica "{}\+STLH"{} codificada em representação Little-\/\+Endian (0x484\+C5453). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structstealth__hdr}{stealth\+\_\+hdr}} \doxymbox{\hyperlink{xdp__kern_8c_aa855b41374beb0e3e79237d2a717b20c}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((packed))
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\} \doxymbox{\hyperlink{xdp__kern_8c_a3619d2a916d82905f23ec860ab51611c}{SEC}} ("{}.maps"{})\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em Mapa e\+BPF do tipo XSKMAP. \end{DoxyCompactList}\item 
+\Hypertarget{xdp__kern_8c_a07c23cd53d7ef92c0f16b55f36c4d53a}\label{xdp__kern_8c_a07c23cd53d7ef92c0f16b55f36c4d53a} 
+{\bfseries \+\_\+\+\_\+uint} (type, BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+XSKMAP)
+\item 
+\Hypertarget{xdp__kern_8c_a77bd445390ddd4bec6469e04c89a49e0}\label{xdp__kern_8c_a77bd445390ddd4bec6469e04c89a49e0} 
+{\bfseries \+\_\+\+\_\+uint} (max\+\_\+entries, 64)
+\item 
+\Hypertarget{xdp__kern_8c_a7ab4b229d120b3243fc25045530ed684}\label{xdp__kern_8c_a7ab4b229d120b3243fc25045530ed684} 
+{\bfseries \+\_\+\+\_\+type} (key, \+\_\+\+\_\+u32)
+\item 
+\Hypertarget{xdp__kern_8c_a0117f54c3ecbcb155cada6afc8ec8dca}\label{xdp__kern_8c_a0117f54c3ecbcb155cada6afc8ec8dca} 
+{\bfseries \+\_\+\+\_\+type} (value, \+\_\+\+\_\+u32)
+\item 
+\Hypertarget{xdp__kern_8c_a871c86deba95867d2528ec91f4c091ba}\label{xdp__kern_8c_a871c86deba95867d2528ec91f4c091ba} 
+{\bfseries \+\_\+\+\_\+uint} (type, BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+LRU\+\_\+\+HASH)
+\item 
+\Hypertarget{xdp__kern_8c_a5843a5f77af5d14b65261efc6a425506}\label{xdp__kern_8c_a5843a5f77af5d14b65261efc6a425506} 
+{\bfseries \+\_\+\+\_\+uint} (max\+\_\+entries, 65536)
+\item 
+\Hypertarget{xdp__kern_8c_ae6e929966ca20dbdfb2c7c8c8f96396b}\label{xdp__kern_8c_ae6e929966ca20dbdfb2c7c8c8f96396b} 
+{\bfseries \+\_\+\+\_\+type} (value, \+\_\+\+\_\+u8)
+\item 
+\Hypertarget{xdp__kern_8c_ae3476ccf60a6792872647ce831d60268}\label{xdp__kern_8c_ae3476ccf60a6792872647ce831d60268} 
+{\bfseries \+\_\+\+\_\+uint} (type, BPF\+\_\+\+MAP\+\_\+\+TYPE\+\_\+\+PERCPU\+\_\+\+ARRAY)
+\item 
+\Hypertarget{xdp__kern_8c_a10e56f48355a6f9afdf760df42238788}\label{xdp__kern_8c_a10e56f48355a6f9afdf760df42238788} 
+{\bfseries \+\_\+\+\_\+uint} (max\+\_\+entries, 2)
+\item 
+\Hypertarget{xdp__kern_8c_ac995ca224cf6b1fa584e98cc6558b5ac}\label{xdp__kern_8c_ac995ca224cf6b1fa584e98cc6558b5ac} 
+{\bfseries \+\_\+\+\_\+type} (value, \+\_\+\+\_\+u64)
+\item 
+static \+\_\+\+\_\+always\+\_\+inline void \doxymbox{\hyperlink{xdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2}{stats\+\_\+inc}} (\+\_\+\+\_\+u32 idx)
+\begin{DoxyCompactList}\small\item\em Incrementa de forma atómica os contadores de estatísticas no mapa e\+BPF. \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b}{xdp\+\_\+stealth\+\_\+filter}} (struct xdp\+\_\+md \texorpdfstring{$\ast$}{*}ctx)
+\begin{DoxyCompactList}\small\item\em Filtro e\+BPF principal anexado ao gancho (hook) XDP do driver de rede. \end{DoxyCompactList}\item 
+\Hypertarget{xdp__kern_8c_a36068c2d6901b6f0a92ac8f7bdcffefd}\label{xdp__kern_8c_a36068c2d6901b6f0a92ac8f7bdcffefd} 
+char \+\_\+license\+[$\,$]\+ {\bfseries SEC} ("{}license"{})
+\begin{DoxyCompactList}\small\item\em Licença regulamentar exigida pelo subsistema e\+BPF do Kernel Linux. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variáveis}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+u8 \doxymbox{\hyperlink{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590}{magic}} \+[4]\+
+\item 
+\+\_\+\+\_\+u32 \doxymbox{\hyperlink{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5}{seq}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Programa e\+BPF executado no Kernel para filtragem e redirecionamento de pacotes. 
+
+Este módulo implementa a filtragem em Linha de Comando (XDP fast-\/path) para um canal encoberto de Camada 2. Valida o Ether\+Type customizado, inspeciona bytes mágicos, protege contra ataques de replay via tabelas Hash LRU e redireciona o tráfego legítimo para o socket AF\+\_\+\+XDP. \begin{DoxyAuthor}{Autor}
+Pedro Galvão 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Data}
+2026 
+\end{DoxyDate}
+
+
+\label{xdp__kern_8c_doc-func-members}
+\Hypertarget{xdp__kern_8c_doc-func-members}
+\doxysubsection{Documentação das funções}
+\Hypertarget{xdp__kern_8c_aa855b41374beb0e3e79237d2a717b20c}\index{xdp\_kern.c@{xdp\_kern.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_aa855b41374beb0e3e79237d2a717b20c} 
+struct \doxymbox{\hyperlink{structstealth__hdr}{stealth\+\_\+hdr}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(packed)}]{}{}\end{DoxyParamCaption})}
+
+\texorpdfstring{$<$}{<} Identificador do protocolo "{}\+STLH"{}
+
+\texorpdfstring{$<$}{<} Número de sequência (Big-\/\+Endian) para evitar replay attacks
+
+\texorpdfstring{$<$}{<} Comprimento real do payload cifrado
+
+\texorpdfstring{$<$}{<} Vetor de Inicialização gerado aleatoriamente por pacote
+
+\texorpdfstring{$<$}{<} Dados cifrados contendo a payload do comando/\+resposta
+
+\texorpdfstring{$<$}{<} Tag de autenticação HMAC-\/\+SHA256(iv \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} ciphertext)\Hypertarget{xdp__kern_8c_a3619d2a916d82905f23ec860ab51611c}\index{xdp\_kern.c@{xdp\_kern.c}!SEC@{SEC}}
+\index{SEC@{SEC}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{SEC()}{SEC()}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_a3619d2a916d82905f23ec860ab51611c} 
+struct @175074126137053373050064366146223112017356311175 SEC (\begin{DoxyParamCaption}\item[{"{}.maps"{}}]{}{}\end{DoxyParamCaption})}
+
+
+
+Mapa e\+BPF do tipo XSKMAP. 
+
+Mapa e\+BPF Per-\/\+CPU Array para Métricas e Estatísticas.
+
+Mapa e\+BPF do tipo LRU Hash para Proteção contra Replay.
+
+Faz a associação entre o índice da fila da placa de rede (Queue Index) e o File Descriptor (FD) do socket AF\+\_\+\+XDP registado em userspace.
+
+Armazena temporariamente os números de sequência ({\ttfamily \doxylink{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5}{seq}}) já processados. Utiliza a política Least Recently Used (LRU) para descartar registos antigos quando atinge o limite máximo de 65.\+536 chaves, prevenindo exaustão de memória.
+
+Vetor indexado para auditoria em runtime sem contenção de locks entre núcleos:\+
+\begin{DoxyItemize}
+\item Índice 0:\+ Contagem de pacotes válidos aceites e redirecionados.
+\item Índice 1:\+ Contagem de pacotes duplicados/\+rejeitados por replay. 
+\end{DoxyItemize}\Hypertarget{xdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2}\index{xdp\_kern.c@{xdp\_kern.c}!stats\_inc@{stats\_inc}}
+\index{stats\_inc@{stats\_inc}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{stats\_inc()}{stats\_inc()}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_af43ba4ac6dcebeea0af84cf126c2f1f2} 
+\+\_\+\+\_\+always\+\_\+inline void stats\+\_\+inc (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+u32}]{idx}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Incrementa de forma atómica os contadores de estatísticas no mapa e\+BPF. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em idx} & Índice do contador a incrementar (0 para Aceites, 1 para Descartados). \\
+\hline
+\end{DoxyParams}
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 1
+\Hypertarget{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b}\index{xdp\_kern.c@{xdp\_kern.c}!xdp\_stealth\_filter@{xdp\_stealth\_filter}}
+\index{xdp\_stealth\_filter@{xdp\_stealth\_filter}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{xdp\_stealth\_filter()}{xdp\_stealth\_filter()}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_a8e3c180e9bbe86d1fd995dc6d204ef8b} 
+int xdp\+\_\+stealth\+\_\+filter (\begin{DoxyParamCaption}\item[{struct xdp\+\_\+md \texorpdfstring{$\ast$}{*}}]{ctx}{}\end{DoxyParamCaption})}
+
+
+
+Filtro e\+BPF principal anexado ao gancho (hook) XDP do driver de rede. 
+
+Inspeciona sequencialmente o frame recebido a nível de hardware:\+
+\begin{DoxyEnumerate}
+\item Verifica se o tamanho do frame comporta o cabeçalho Ethernet standard.~\newline
+
+\item Filtra pelo Ether\+Type customizado {\ttfamily 0x88\+B5} (repassa o resto ao SO via XDP\+\_\+\+PASS).~\newline
+
+\item Inspeciona a assinatura mágica no cabeçalho stealth.~\newline
+
+\item Valida se o número de sequência já foi visto no mapa LRU para evitar Replay (descarta via XDP\+\_\+\+DROP).~\newline
+
+\item Efetua o bypass da stack de rede injetando o pacote na Queue 0 do socket AF\+\_\+\+XDP. 
+\begin{DoxyParams}{Parâmetros}
+{\em ctx} & Ponteiro para os metadados contextuais do frame de rede ({\ttfamily xdp\+\_\+md}). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+Decisão de ação XDP ({\ttfamily XDP\+\_\+\+PASS}, {\ttfamily XDP\+\_\+\+DROP} ou resultado de {\ttfamily bpf\+\_\+redirect\+\_\+map}). 
+\end{DoxyReturn}
+
+\end{DoxyEnumerate}Grafo de chamadas desta função:\+
+% FIG 2
+Este é o diagrama das funções que utilizam esta função:\+
+% FIG 3
+
+
+\label{xdp__kern_8c_doc-var-members}
+\Hypertarget{xdp__kern_8c_doc-var-members}
+\doxysubsection{Documentação das variáveis}
+\Hypertarget{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590}\index{xdp\_kern.c@{xdp\_kern.c}!magic@{magic}}
+\index{magic@{magic}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{magic}{magic}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_ab7249c342df9f505aedb7ce121515590} 
+\+\_\+\+\_\+u8 magic\+[4]\+}
+
+Array contendo os caracteres mágicos de validação "{}\+STLH"{} \Hypertarget{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5}\index{xdp\_kern.c@{xdp\_kern.c}!seq@{seq}}
+\index{seq@{seq}!xdp\_kern.c@{xdp\_kern.c}}
+\doxysubsubsection{\texorpdfstring{seq}{seq}}
+{\footnotesize\ttfamily \label{xdp__kern_8c_a24b46e52d42e409d5b20a4a15ec17ed5} 
+\+\_\+\+\_\+u32 seq}
+
+Número de sequência do pacote para proteção da camada de rede 

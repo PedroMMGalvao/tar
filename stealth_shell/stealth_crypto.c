@@ -1,3 +1,8 @@
+/**
+ * @file stealth_crypto.c
+ * @brief Implementações criptográficas utilizando a API OpenSSL EVP Providers.
+ */
+
 #include "stealth_crypto.h"
 #include <string.h>
 #include <openssl/evp.h>
@@ -11,6 +16,14 @@
 static const uint8_t ENC_KEY[CRYPTO_KEY_SIZE] = PSK_ENC;
 static const uint8_t MAC_KEY[CRYPTO_KEY_SIZE] = PSK_MAC;
 
+/**
+ * @brief Função interna para cálculo do MAC sobre o vetor de inicialização e a carga cifrada.
+ * @param iv Ponteiro para o vetor de inicialização do bloco.
+ * @param ct Ponteiro para o array contendo o ciphertext.
+ * @param ct_len Tamanho em bytes da sequência cifrada.
+ * @param hmac_out Buffer onde será vertida a assinatura final (mínimo 32 bytes).
+ * @return 1 em caso de sucesso, 0 se houver erros na inicialização ou alimentação do contexto MAC.
+ */
 static int compute_hmac(const uint8_t *iv, const uint8_t *ct, uint16_t ct_len,
                         uint8_t *hmac_out)
 {

@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>XDP Stealth Shell: Referência ao ficheiro stealth_net.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">XDP Stealth Shell<span id="projectnumber">&#160;1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('stealth__net_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência ao ficheiro stealth_net.h</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell.  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;bpf/libbpf.h&gt;</code><br />
+<code>#include &lt;xdp/xsk.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Diagrama de dependências de inclusão para stealth_net.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h__incl.png" border="0" usemap="#astealth__net_8h" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+</div><div class="textblock"><div class="dynheader">
+Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h__dep__incl.png" border="0" usemap="#astealth__net_8hdep" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+</div>
+<p><a href="stealth__net_8h_source.html">Ir para o código fonte deste ficheiro.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Componentes</h2></td></tr>
+<tr class="memitem:xsk_5Finfo" id="r_xsk_5Finfo"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structxsk__info.html">xsk_info</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contexto operacional e rings de controlo associados ao socket AF_XDP.  <a href="structxsk__info.html#details">Mais...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af297dcdbdcc0806e1a61148ffc215af4" id="r_af297dcdbdcc0806e1a61148ffc215af4"><td class="memItemLeft"><a id="af297dcdbdcc0806e1a61148ffc215af4" name="af297dcdbdcc0806e1a61148ffc215af4"></a>
+#define&#160;</td><td class="memItemRight"><b>STEALTH_ETHERTYPE</b>&#160;&#160;&#160;0x88B5</td></tr>
+<tr class="memdesc:af297dcdbdcc0806e1a61148ffc215af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">EtherType customizado para tráfego stealth (Protocolo experimental/local). <br /></td></tr>
+<tr class="memitem:aa1fd81cd810a89571aff4c0e8da503ff" id="r_aa1fd81cd810a89571aff4c0e8da503ff"><td class="memItemLeft"><a id="aa1fd81cd810a89571aff4c0e8da503ff" name="aa1fd81cd810a89571aff4c0e8da503ff"></a>
+#define&#160;</td><td class="memItemRight"><b>STEALTH_MAGIC</b>&#160;&#160;&#160;&quot;STLH&quot;</td></tr>
+<tr class="memdesc:aa1fd81cd810a89571aff4c0e8da503ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic bytes para validação inicial de pacotes stealth. <br /></td></tr>
+<tr class="memitem:ad7bb30dbf5882fdf05331918e8a0cc84" id="r_ad7bb30dbf5882fdf05331918e8a0cc84"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ad7bb30dbf5882fdf05331918e8a0cc84">IV_SIZE</a>&#160;&#160;&#160;16</td></tr>
+<tr class="memitem:a47668e54458d49255620473617a4920e" id="r_a47668e54458d49255620473617a4920e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a47668e54458d49255620473617a4920e">HMAC_SIZE</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memitem:aa7a7521abb3a3664218d8dc0e3759f0f" id="r_aa7a7521abb3a3664218d8dc0e3759f0f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#aa7a7521abb3a3664218d8dc0e3759f0f">MAX_PAYLOAD</a>&#160;&#160;&#160;198</td></tr>
+<tr class="memitem:a29200875a787834671e9836f2356ed8d" id="r_a29200875a787834671e9836f2356ed8d"><td class="memItemLeft"><a id="a29200875a787834671e9836f2356ed8d" name="a29200875a787834671e9836f2356ed8d"></a>
+#define&#160;</td><td class="memItemRight"><b>ETH_HDR_LEN</b>&#160;&#160;&#160;14</td></tr>
+<tr class="memdesc:a29200875a787834671e9836f2356ed8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprimento fixo do cabeçalho Ethernet standard. <br /></td></tr>
+<tr class="memitem:a966cb2eed4436763c207af4b32b08f53" id="r_a966cb2eed4436763c207af4b32b08f53"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a966cb2eed4436763c207af4b32b08f53">NUM_FRAMES</a>&#160;&#160;&#160;2048</td></tr>
+<tr class="memitem:af9b1b2ba12857a4bf11289dac8c5462d" id="r_af9b1b2ba12857a4bf11289dac8c5462d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#af9b1b2ba12857a4bf11289dac8c5462d">FRAME_SIZE</a>&#160;&#160;&#160;XSK_UMEM__DEFAULT_FRAME_SIZE</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:ab898071398b359603a35c202e9c65f3b" id="r_ab898071398b359603a35c202e9c65f3b"><td class="memItemLeft">struct&#160;</td><td class="memItemRight"><a class="el" href="#ab898071398b359603a35c202e9c65f3b">__attribute__</a> ((packed))</td></tr>
+<tr class="memitem:a0e9470401e8e266b02f94bd1240cc7cd" id="r_a0e9470401e8e266b02f94bd1240cc7cd"><td class="memItemLeft">struct <a class="el" href="structxsk__info.html">xsk_info</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a0e9470401e8e266b02f94bd1240cc7cd">init_xsk_socket</a> (const char *ifname)</td></tr>
+<tr class="memdesc:a0e9470401e8e266b02f94bd1240cc7cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada.  <br /></td></tr>
+<tr class="memitem:ade686245a281d30b370ed9861f14f916" id="r_ade686245a281d30b370ed9861f14f916"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ade686245a281d30b370ed9861f14f916">cleanup_xsk_socket</a> (struct <a class="el" href="structxsk__info.html">xsk_info</a> *xsk, const char *ifname)</td></tr>
+<tr class="memdesc:ade686245a281d30b370ed9861f14f916"><td class="mdescLeft">&#160;</td><td class="mdescRight">Realiza o desanexamento do programa XDP e liberta todos os recursos do socket.  <br /></td></tr>
+<tr class="memitem:ac2dfb903f0be71b96ca245dea391e9a8" id="r_ac2dfb903f0be71b96ca245dea391e9a8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac2dfb903f0be71b96ca245dea391e9a8">xsk_send_packet</a> (struct <a class="el" href="structxsk__info.html">xsk_info</a> *xsk, <a class="el" href="structstealth__pkt__t.html">stealth_pkt_t</a> *pkt)</td></tr>
+<tr class="memdesc:ac2dfb903f0be71b96ca245dea391e9a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Envia um pacote stealth formatado através do ring de TX da interface.  <br /></td></tr>
+<tr class="memitem:a364f8f716fd1aa529c476f7a477214d9" id="r_a364f8f716fd1aa529c476f7a477214d9"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a364f8f716fd1aa529c476f7a477214d9">xsk_receive_packet</a> (struct <a class="el" href="structxsk__info.html">xsk_info</a> *xsk, <a class="el" href="structstealth__pkt__t.html">stealth_pkt_t</a> *pkt)</td></tr>
+<tr class="memdesc:a364f8f716fd1aa529c476f7a477214d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica o anel de receção e extrai um frame stealth se disponível.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:acb876975c2826cfd9cb935bfe821facc" id="r_acb876975c2826cfd9cb935bfe821facc"><td class="memItemLeft"><a id="acb876975c2826cfd9cb935bfe821facc" name="acb876975c2826cfd9cb935bfe821facc"></a>
+&#160;</td><td class="memItemRight"><b>stealth_pkt_t</b></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Definições de rede e estruturas de dados para o socket AF_XDP do Stealth Shell. </p>
+<dl class="section author"><dt>Autor</dt><dd>Pedro Galvão </dd></dl>
+<dl class="section date"><dt>Data</dt><dd>2026 </dd></dl>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Documentação das macros</h2>
+<a id="af9b1b2ba12857a4bf11289dac8c5462d" name="af9b1b2ba12857a4bf11289dac8c5462d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b1b2ba12857a4bf11289dac8c5462d">&#9670;&#160;</a></span>FRAME_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FRAME_SIZE&#160;&#160;&#160;XSK_UMEM__DEFAULT_FRAME_SIZE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Tamanho padrão de cada frame no UMEM (normalmente 4KB) </p>
+
+</div>
+</div>
+<a id="a47668e54458d49255620473617a4920e" name="a47668e54458d49255620473617a4920e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47668e54458d49255620473617a4920e">&#9670;&#160;</a></span>HMAC_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HMAC_SIZE&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Tamanho do buffer HMAC-SHA256 </p>
+
+</div>
+</div>
+<a id="ad7bb30dbf5882fdf05331918e8a0cc84" name="ad7bb30dbf5882fdf05331918e8a0cc84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7bb30dbf5882fdf05331918e8a0cc84">&#9670;&#160;</a></span>IV_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IV_SIZE&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Tamanho do IV para AES-256-CTR </p>
+
+</div>
+</div>
+<a id="aa7a7521abb3a3664218d8dc0e3759f0f" name="aa7a7521abb3a3664218d8dc0e3759f0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7a7521abb3a3664218d8dc0e3759f0f">&#9670;&#160;</a></span>MAX_PAYLOAD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_PAYLOAD&#160;&#160;&#160;198</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Espaço máximo para texto limpo (plaintext) </p>
+
+</div>
+</div>
+<a id="a966cb2eed4436763c207af4b32b08f53" name="a966cb2eed4436763c207af4b32b08f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a966cb2eed4436763c207af4b32b08f53">&#9670;&#160;</a></span>NUM_FRAMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NUM_FRAMES&#160;&#160;&#160;2048</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Número total de buffers alocados no UMEM </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="ab898071398b359603a35c202e9c65f3b" name="ab898071398b359603a35c202e9c65f3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab898071398b359603a35c202e9c65f3b">&#9670;&#160;</a></span>__attribute__()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct __attribute__ </td>
+          <td>(</td>
+          <td class="paramtype">(packed)</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>&lt; Identificador do protocolo "STLH"</p>
+<p>&lt; Número de sequência (Big-Endian) para evitar replay attacks</p>
+<p>&lt; Comprimento real do payload cifrado</p>
+<p>&lt; Vetor de Inicialização gerado aleatoriamente por pacote</p>
+<p>&lt; Dados cifrados contendo a payload do comando/resposta</p>
+<p>&lt; Tag de autenticação HMAC-SHA256(iv || ciphertext)</p>
+
+</div>
+</div>
+<a id="ade686245a281d30b370ed9861f14f916" name="ade686245a281d30b370ed9861f14f916"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade686245a281d30b370ed9861f14f916">&#9670;&#160;</a></span>cleanup_xsk_socket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cleanup_xsk_socket </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structxsk__info.html">xsk_info</a> *</td>          <td class="paramname"><span class="paramname"><em>xsk</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>ifname</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Realiza o desanexamento do programa XDP e liberta todos os recursos do socket. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xsk</td><td>Ponteiro para o contexto do socket obtido em init_xsk_socket. </td></tr>
+    <tr><td class="paramname">ifname</td><td>Nome da interface de rede associada. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph.png" border="0" usemap="#astealth__net_8h_ade686245a281d30b370ed9861f14f916_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 2 -->
+</div>
+
+</div>
+</div>
+<a id="a0e9470401e8e266b02f94bd1240cc7cd" name="a0e9470401e8e266b02f94bd1240cc7cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e9470401e8e266b02f94bd1240cc7cd">&#9670;&#160;</a></span>init_xsk_socket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structxsk__info.html">xsk_info</a> * init_xsk_socket </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>ifname</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inicializa e configura o ambiente eBPF / AF_XDP na interface especificada. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ifname</td><td>Nome legível da interface de rede (ex: "eth0"). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>Ponteiro para a estrutura <a class="el" href="structxsk__info.html" title="Contexto operacional e rings de controlo associados ao socket AF_XDP.">xsk_info</a> alocada, ou NULL em caso de falha. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph.png" border="0" usemap="#astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 3 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph.png" border="0" usemap="#astealth__net_8h_a0e9470401e8e266b02f94bd1240cc7cd_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 4 -->
+</div>
+
+</div>
+</div>
+<a id="a364f8f716fd1aa529c476f7a477214d9" name="a364f8f716fd1aa529c476f7a477214d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a364f8f716fd1aa529c476f7a477214d9">&#9670;&#160;</a></span>xsk_receive_packet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int xsk_receive_packet </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structxsk__info.html">xsk_info</a> *</td>          <td class="paramname"><span class="paramname"><em>xsk</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structstealth__pkt__t.html">stealth_pkt_t</a> *</td>          <td class="paramname"><span class="paramname"><em>pkt</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verifica o anel de receção e extrai um frame stealth se disponível. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xsk</td><td>Ponteiro para o contexto operacional do socket. </td></tr>
+    <tr><td class="paramname">pkt</td><td>Ponteiro de destino onde o conteúdo do frame será copiado. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>1 se um pacote foi recebido com sucesso, 0 se não existiam dados pendentes. </dd></dl>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph.png" border="0" usemap="#astealth__net_8h_a364f8f716fd1aa529c476f7a477214d9_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 5 -->
+</div>
+
+</div>
+</div>
+<a id="ac2dfb903f0be71b96ca245dea391e9a8" name="ac2dfb903f0be71b96ca245dea391e9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2dfb903f0be71b96ca245dea391e9a8">&#9670;&#160;</a></span>xsk_send_packet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int xsk_send_packet </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structxsk__info.html">xsk_info</a> *</td>          <td class="paramname"><span class="paramname"><em>xsk</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structstealth__pkt__t.html">stealth_pkt_t</a> *</td>          <td class="paramname"><span class="paramname"><em>pkt</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Envia um pacote stealth formatado através do ring de TX da interface. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xsk</td><td>Ponteiro para o contexto operacional do socket. </td></tr>
+    <tr><td class="paramname">pkt</td><td>Ponteiro para a estrutura populada contendo os dados e assinaturas. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em caso de sucesso, -1 se o anel de transmissão estiver cheio. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph.png" border="0" usemap="#astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 6 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="stealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph.png" border="0" usemap="#astealth__net_8h_ac2dfb903f0be71b96ca245dea391e9a8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 7 -->
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="stealth__net_8h.html">stealth_net.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

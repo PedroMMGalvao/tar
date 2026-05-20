@@ -1,3 +1,8 @@
+/**
+ * @file stealth_net.c
+ * @brief Implementações de baixo nível para orquestração de rings AF_XDP e carregamento eBPF.
+ */
+
 #include "stealth_net.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +22,12 @@
 #define BPF_PROG_NAME "xdp_stealth_filter"
 #define BPF_MAP_NAME  "xsks_map"
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
+/**
+ * @brief Gera um endereço MAC pseudo-aleatório através do /dev/urandom.
+ * * Aplica as máscaras de bits necessárias para garantir que o MAC gerado está em
+ * conformidade com as regras de endereço Unicast Localmente Administrado (ULA).
+ * * @param mac Buffer de 6 bytes de saída para o endereço MAC.
+ */
 static void generate_random_mac(uint8_t *mac)
 {
     FILE *f = fopen("/dev/urandom", "rb");
@@ -29,6 +39,13 @@ static void generate_random_mac(uint8_t *mac)
     mac[0] = (mac[0] & 0xFE) | 0x02;   // locally administered, unicast
 }
 
+/**
+ * @brief Callback costumizado para supressão de mensagens informativas da libbpf.
+ * @param level Nível de verbosidade do log detetado.
+ * @param fmt String de formatação padrão print.
+ * @param ap Lista de argumentos variáveis.
+ * @return Retorna a saída padrão de erro apenas se for um aviso (LIBBPF_WARN).
+ */
 static int libbpf_quiet(enum libbpf_print_level level,
                         const char *fmt, va_list ap)
 {
@@ -36,7 +53,6 @@ static int libbpf_quiet(enum libbpf_print_level level,
     return 0;
 }
 
-// ─── init_xsk_socket ──────────────────────────────────────────────────────
 struct xsk_info *init_xsk_socket(const char *ifname)
 {
     libbpf_set_print(libbpf_quiet);
@@ -44,7 +60,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     struct xsk_info *xsk = calloc(1, sizeof(*xsk));
     if (!xsk) return NULL;
 
-    // 1. Interface index
     xsk->ifindex = (int)if_nametoindex(ifname);
     if (!xsk->ifindex) {
         fprintf(stderr, "[!] Interface '%s' not found: %s\n",
@@ -52,7 +67,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
         goto err_free;
     }
 
-    // 2. Load BPF object
     struct bpf_object *obj = bpf_object__open(BPF_OBJ_PATH);
     if (libbpf_get_error(obj)) {
         fprintf(stderr, "[!] Failed to open '%s'\n", BPF_OBJ_PATH);
@@ -65,7 +79,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     }
     xsk->bpf_obj = obj;
 
-    // 3. Attach XDP native (DRV mode)
     struct bpf_program *prog =
     bpf_object__find_program_by_name(obj, BPF_PROG_NAME);
     if (!prog) {
@@ -74,12 +87,10 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     }
     xsk->prog_fd = bpf_program__fd(prog);
 
-    // Detach de TODOS os modos — elimina programas residuais de sessões anteriores
     bpf_xdp_detach(xsk->ifindex, XDP_FLAGS_DRV_MODE, NULL);
     bpf_xdp_detach(xsk->ifindex, XDP_FLAGS_SKB_MODE, NULL);
     bpf_xdp_detach(xsk->ifindex, XDP_FLAGS_HW_MODE,  NULL);
 
-    // Pequena pausa para o kernel processar o detach
     usleep(100000);  // 100ms
 
     int ret = bpf_xdp_attach(xsk->ifindex, xsk->prog_fd,
@@ -90,11 +101,10 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     }
     xsk->xdp_flags = XDP_FLAGS_DRV_MODE;
 
-    // Verificar que o programa anexado é mesmo o nosso
     uint32_t attached_id = 0;
     bpf_xdp_query_id(xsk->ifindex, XDP_FLAGS_DRV_MODE, &attached_id);
     struct bpf_prog_info info = {};
-    uint32_t info_len2 = sizeof(info);   // ← era info_len
+    uint32_t info_len2 = sizeof(info);
     bpf_obj_get_info_by_fd(xsk->prog_fd, &info, &info_len2); 
     fprintf(stdout, "[+] XDP NATIVE em '%s' — prog_id nosso=%u anexado=%u %s\n",
             ifname, info.id, attached_id,
@@ -104,7 +114,7 @@ struct xsk_info *init_xsk_socket(const char *ifname)
         fprintf(stderr, "[!] Programa errado anexado. Corre: sudo pkill -f stealth_shell_xdp && sudo ./stealth_setup.sh\n");
         goto err_close_obj;
     }
-    // 4. UMEM — buffer partilhado kernel/userspace
+
     size_t buf_size = (size_t)NUM_FRAMES * FRAME_SIZE;
     if (posix_memalign(&xsk->buffer, getpagesize(), buf_size)) {
         fprintf(stderr, "[!] posix_memalign failed\n");
@@ -123,7 +133,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
         goto err_free_buf;
     }
 
-    // 5. AF_XDP socket — native + zero-copy
     struct xsk_socket_config scfg = {
         .rx_size      = NUM_FRAMES,
         .tx_size      = NUM_FRAMES,
@@ -138,7 +147,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     }
     fprintf(stdout, "[+] AF_XDP socket: NATIVE + ZERO-COPY on '%s'\n", ifname);
 
-    // 6. Registar socket no xsks_map na chave 0 (queue 0)
     struct bpf_xdp_attach_opts query_opts = { .sz = sizeof(query_opts) };
     uint32_t attached_prog_id = 0;
     bpf_xdp_query_id(xsk->ifindex, XDP_FLAGS_DRV_MODE, &attached_prog_id);
@@ -173,8 +181,6 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     }
     fprintf(stdout, "[+] Socket fd=%d registado em xsks_map[0]\n", sock);
 
-    // 7. Fill ring — primeira metade do UMEM para RX
-    // TX usa a segunda metade, evitando sobreposição de buffers.
     uint32_t idx;
     uint32_t rx_frames = NUM_FRAMES / 2;
     if (xsk_ring_prod__reserve(&xsk->fq, rx_frames, &idx) == rx_frames) {
@@ -191,7 +197,7 @@ struct xsk_info *init_xsk_socket(const char *ifname)
     fprintf(stdout, "[+] UMEM: %u frames RX | %u frames TX\n",
             rx_frames, rx_frames);
 
-    return xsk;   // ← SUCCESS
+    return xsk;
 
 err_socket:    xsk_socket__delete(xsk->xsk);
 err_umem:      xsk_umem__delete(xsk->umem);
@@ -202,7 +208,6 @@ err_free:      free(xsk);
                return NULL;
 }
 
-// ─── cleanup_xsk_socket ───────────────────────────────────────────────────
 void cleanup_xsk_socket(struct xsk_info *xsk, const char *ifname)
 {
     (void)ifname;
@@ -215,34 +220,28 @@ void cleanup_xsk_socket(struct xsk_info *xsk, const char *ifname)
     free(xsk);
 }
 
-// ─── xsk_send_packet ──────────────────────────────────────────────────────
-// Wire: [ Ethernet 14B ][ stealth_pkt_t 256B ] = 270 bytes
 int xsk_send_packet(struct xsk_info *xsk, stealth_pkt_t *pkt)
 {   uint8_t r_mac[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
     uint32_t idx;
     if (xsk_ring_prod__reserve(&xsk->tx, 1, &idx) < 1)
         return -1;
 
-    // Frame da zona TX (segunda metade do UMEM)
     uint64_t addr = xsk->tx_frame_idx * FRAME_SIZE;
     xsk->tx_frame_idx++;
     if (xsk->tx_frame_idx >= NUM_FRAMES)
         xsk->tx_frame_idx = NUM_FRAMES / 2;
 
-    // Drenar completion ring
     uint32_t cq_idx;
     unsigned int completed = xsk_ring_cons__peek(&xsk->cq, 1, &cq_idx);
     if (completed > 0) xsk_ring_cons__release(&xsk->cq, completed);
 
     uint8_t *frame = xsk_umem__get_data(xsk->buffer, addr);
 
-    // Ethernet header
     struct ethhdr *eth = (struct ethhdr *)frame;
-    generate_random_mac(eth->h_source);          // MAC de origem aleatório
+    generate_random_mac(eth->h_source);
     memcpy(eth->h_dest, r_mac, 6);
     eth->h_proto = htons(STEALTH_ETHERTYPE);
 
-    // Stealth payload
     memcpy(frame + ETH_HDR_LEN, pkt, sizeof(stealth_pkt_t));
 
     uint32_t total = ETH_HDR_LEN + sizeof(stealth_pkt_t);
@@ -256,7 +255,6 @@ int xsk_send_packet(struct xsk_info *xsk, stealth_pkt_t *pkt)
     return 0;
 }
 
-// ─── xsk_receive_packet ───────────────────────────────────────────────────
 int xsk_receive_packet(struct xsk_info *xsk, stealth_pkt_t *pkt)
 {
     uint32_t idx;
@@ -271,7 +269,6 @@ int xsk_receive_packet(struct xsk_info *xsk, stealth_pkt_t *pkt)
 
     xsk_ring_cons__release(&xsk->rx, 1);
 
-    // Devolver frame ao fill ring
     uint32_t f_idx;
     if (xsk_ring_prod__reserve(&xsk->fq, 1, &f_idx) == 1) {
         *xsk_ring_prod__fill_addr(&xsk->fq, f_idx) = addr;

@@ -1,3 +1,8 @@
+/**
+ * @file stealth_shell.c
+ * @brief Programa principal (Userspace CLI) do Stealth Shell baseado em AF_XDP.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,9 +26,13 @@
 #define CYN  "\x1b[36m"
 #define WHT  "\x1b[37m"
 
-static struct xsk_info *g_xsk   = NULL;
-static const char      *g_iface = NULL;
+static struct xsk_info *g_xsk   = NULL; /**< Contexto global do socket AF_XDP */
+static const char      *g_iface = NULL; /**< Guardião global do nome da interface de rede em uso */
 
+/**
+ * @brief Manipulador de sinais do sistema (SIGINT, SIGTERM) para encerramento limpo.
+ * @param sig Número identificador do sinal intercetado.
+ */
 static void on_sigint(int sig)
 {
     (void)sig;
@@ -32,6 +41,12 @@ static void on_sigint(int sig)
     exit(0);
 }
 
+/**
+ * @brief Utilitário auxiliar para despejo hexadecimal de dados na consola (Hexdump).
+ * @param label Título identificador a imprimir antes do dump.
+ * @param data Ponteiro para a sequência de bytes.
+ * @param len Número de bytes a processar para impressão.
+ */
 static void print_hex(const char *label, const uint8_t *data, size_t len)
 {
     printf(BOLD CYN "%s:" RST, label);
@@ -40,6 +55,12 @@ static void print_hex(const char *label, const uint8_t *data, size_t len)
     printf("\n");
 }
 
+/**
+ * @brief Obtém o endereço MAC de hardware associado à interface local configurada.
+ * @param ifname String representativa do nome do interface de rede.
+ * @param mac Array de destino com capacidade de 6 bytes.
+ * @return 0 se lido com sucesso, -1 caso ocorra falha na execução do ioctl.
+ */
 static int get_local_mac(const char *ifname, uint8_t *mac)
 {
     struct ifreq ifr;
@@ -53,7 +74,12 @@ static int get_local_mac(const char *ifname, uint8_t *mac)
     return 0;
 }
 
-
+/**
+ * @brief Ponto de entrada do executável da aplicação.
+ * @param argc Contador de argumentos em linha de comandos.
+ * @param argv Vetor de apontadores contendo os argumentos textuais.
+ * @return Código de execução (0 para término regular, 1 para falhas estruturais).
+ */
 int main(int argc, char **argv)
 {
     if (argc < 2) {
@@ -71,9 +97,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "[!] Não foi possível ler MAC de '%s'\n", argv[1]);
         return 1;
     }
-    
 
-    // Inicializar AF_XDP — carrega e anexa o programa BPF
     g_xsk = init_xsk_socket(argv[1]);
     if (!g_xsk) {
         fprintf(stderr, "[!] AF_XDP init falhou\n");
@@ -102,7 +126,6 @@ int main(int argc, char **argv)
     while (1) {
         poll(fds, 2, -1);
 
-        // ── Envio ─────────────────────────────────────────────────────
         if (fds[0].revents & POLLIN) {
             char buf[MAX_PAYLOAD];
             memset(buf, 0, sizeof(buf));
@@ -133,7 +156,6 @@ int main(int argc, char **argv)
             xsk_send_packet(g_xsk, &pkt);
         }
 
-        // ── Recepção ──────────────────────────────────────────────────
         if (fds[1].revents & POLLIN) {
             stealth_pkt_t r_pkt;
             uint8_t clear[MAX_PAYLOAD];
